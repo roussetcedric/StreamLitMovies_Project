@@ -86,7 +86,8 @@ def main():
     df_Display = DisplayDataFrame(GenreList_list, DirectorList_list, ActorList_list)
     
     x = st.slider('x', 1, 5)
-    DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
+    if x < df_Display.shape[0]:
+        DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
 
 if __name__ == '__main__':
     main()
