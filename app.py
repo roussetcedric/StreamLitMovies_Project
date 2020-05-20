@@ -7,8 +7,18 @@ import urllib.request
 import time
 
 # Load Data -----------------------------------------------------
-# df_Movies = pd.read_csv("https://drive.google.com/uc?id=10gZ-OIbxeylhxkHwxsar3D6FWj7c1qCg")
 df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
+
+# Define CSS
+st.markdown("""
+<style>
+body {
+    color: #fff;
+    background-color: #111;
+    etc. 
+}
+</style>
+    """, unsafe_allow_html=True)
 
 # Define Function --------------------------------------------
 
