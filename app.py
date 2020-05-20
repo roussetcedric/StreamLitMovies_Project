@@ -13,9 +13,12 @@ df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Pub
 st.markdown("""
 <style>
 body {
-    color: #fff;
-    background-color: #111;
-    etc. 
+  background: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80') center center no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: black;
+  height: 100%;
+  width: 100%;
 }
 </style>
     """, unsafe_allow_html=True)
