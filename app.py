@@ -97,15 +97,13 @@ def main():
         DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
         GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
 
-        button_selected = st.button('Select this movie !')
+        if st.button('Select this movie !') :
+            session_state.button_selected = True
+
     else :
         ActorList_list = ''
         DirectorList_list = ''
         GenreList_list = ''
-
-    if button_selected:
-        session_state.button_selected = True
-        st.write("Change button_selected : " + session_state.button_selected)
 
     if session_state.button_selected:
         st.write("Display Prediction")
@@ -119,7 +117,7 @@ def main():
             st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
 
         if st.button('Reset selection !'):
-            MovieIsSelected = False
+            session_state.button_selected = False
             title = ''
 
 if __name__ == '__main__':
