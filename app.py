@@ -149,6 +149,8 @@ def main():
         WriterList_list = st.sidebar.multiselect("Select Writer", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
+        else : 
+            ComposerList_list = ''
 
         if st.button('Select this movie !') :
             session_state.button_selected = True
