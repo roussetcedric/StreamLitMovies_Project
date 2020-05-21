@@ -85,7 +85,7 @@ def get_preview_from_api(movie_id):
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         site = data['results'][0]['site']
-        if site == 'YouTube'
+        if site == 'YouTube':
             video_url = 'https://www.youtube.com/watch?v='+data['movie_results'][0]['key']
         else :
             video_url = ''
