@@ -164,7 +164,7 @@ def main():
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
             if st.button('Voir la Bande Annonce !'):
-                st.video(preview_url, start_time=0)
+                st.write(preview_url)
 
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
@@ -218,7 +218,8 @@ def main():
             preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
             if preview_url != '':
                 if st.button('Voir la Bande Annonce !'):
-                    st.video(preview_url, start_time=0)
+                    st.write(preview_url)
+                    #st.video(preview_url, start_time=0)
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
