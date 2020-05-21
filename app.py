@@ -195,7 +195,7 @@ def main():
             my_bar = st.progress(score)
             if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
                 st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
-            st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
+            st.write('* **Résumé** : ' + str(get_overview_from_api(df_Display.iloc[x-1]["tconst"])))
             if pd.notna(df_Display.iloc[x-1]["startYear"]) :
                 st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
             if pd.notna(df_Display.iloc[x-1]["runtimeMinutes"]) :
@@ -211,7 +211,7 @@ def main():
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
-            BA_url = get_preview_from_api(IndiceFilm.iloc[0])
+            BA_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
             if BA_url != '':
                 if st.button('Voir la Bande Annonce !'):
                     streamlit.video(BA_url, start_time=0)
