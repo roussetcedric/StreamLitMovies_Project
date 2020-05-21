@@ -176,6 +176,8 @@ def main():
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
+            my_bar = st.progress(80)
+
         if st.button('Reset selection !'):
             session_state.button_selected = False
             title = ''
