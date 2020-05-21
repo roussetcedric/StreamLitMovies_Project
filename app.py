@@ -81,14 +81,11 @@ def get_preview_from_api(movie_id):
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     video_url = ''
     movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/videos?api_key='+MOVIEDB_API_KEY+'&language=fr-FR'
-    st.write(movie_url)
     try:
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         site = data['results'][0]['site']
-        st.write("site : " + str(site))
         if site == 'YouTube':
-            st.write(data['results'][0]['key'])
             video_url = 'https://www.youtube.com/watch?v='+data['results'][0]['key']
         else :
             video_url = ''
