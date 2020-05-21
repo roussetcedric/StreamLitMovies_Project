@@ -69,9 +69,9 @@ def GetNameAndYear(dataFrameParam, movie):
     return df_temp
 
 @st.cache(suppress_st_warning=True)
-def KnnPrediction(df_Movies,movie_id):
-    
-    cluster = df_Movies[df_Movies["tconst"] == movie_id.iloc[0]]["cluster"].iloc[0]
+def KnnPrediction(df_Movies,df_movie_id):
+    movie_id = df_movie_id.iloc[0]
+    cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
 
     df_inter=df_Movies.loc[df_Movies['cluster']==cluster]
 
@@ -80,16 +80,10 @@ def KnnPrediction(df_Movies,movie_id):
     X=df_inter[columns]
     y=df_inter['tconst']
 
-    caracteristics=[]
-    for i in columns:
-        caracteristic=list(df_inter[df_inter['tconst']==movie_id][i])[0]
-        caracteristics.append(caracteristic)
-
-
     model_KNN = KNeighborsClassifier(n_neighbors=5)
     model_KNN.fit(X,y)
 
-    MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movieID, columns],n_neighbors=6)
+    MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
     return MovieTemp[1:6]
 
 def main():
