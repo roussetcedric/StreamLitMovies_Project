@@ -86,10 +86,10 @@ def get_preview_from_api(movie_id):
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         site = data['results'][0]['site']
-        st.write("site :" + str(site))
+        st.write("site : " + str(site))
         if site == 'YouTube':
-            st.write(data['movie_results'][0]['key'])
-            video_url = 'https://www.youtube.com/watch?v='+data['movie_results'][0]['key']
+            st.write(data['results'][0]['key'])
+            video_url = 'https://www.youtube.com/watch?v='+data['results'][0]['key']
         else :
             video_url = ''
     except:
@@ -212,7 +212,9 @@ def main():
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
             BA_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
+            st.write(BA_url)
             if BA_url != '':
+                st.write("Affiche la Bande Annonce")
                 if st.button('Voir la Bande Annonce !'):
                     streamlit.video(BA_url, start_time=0)
 
