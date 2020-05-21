@@ -77,6 +77,23 @@ def get_overview_from_api(movie_id):
     return overview
 
 @st.cache(suppress_st_warning=True)
+def get_preview_from_api(movie_id):
+    MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
+    video_url = ''
+    movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/videos?api_key='+MOVIEDB_API_KEY+'&language=fr-FR'
+    try:
+        with urllib.request.urlopen(movie_url) as response:
+            data = json.loads(response.read())
+        site = data['results'][0]['site']
+        if site == 'YouTube'
+            video_url = 'https://www.youtube.com/watch?v='+data['movie_results'][0]['key']
+        else :
+            video_url = ''
+    except:
+        video_url = ''
+    return video_url
+
+@st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
     df_temp = dataFrameParam.loc[dataFrameParam['primaryTitle'].str.lower().str.contains(movie.lower())][['primaryTitle', 'startYear', 'tconst']].sort_values('startYear')
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
@@ -190,6 +207,11 @@ def main():
                 st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
+
+        BA_url = get_preview_from_api(IndiceFilm.iloc[0])
+        if BA_url != '':
+            if st.button('Voir la Bande Annonce !'):
+                streamlit.video(BA_url, start_time=0)
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
