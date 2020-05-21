@@ -130,7 +130,7 @@ def main():
         df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
         DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
         st.write('* **Title** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
-        st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0]))
+        st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
         st.write('* **Year** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
         st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
