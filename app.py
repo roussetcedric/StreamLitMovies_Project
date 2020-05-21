@@ -71,10 +71,7 @@ def GetNameAndYear(dataFrameParam, movie):
 @st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,movie_id):
     
-    st.write(df_Movies[df_Movies["tconst"] == movie_id.iloc[0]]["cluster"])
     cluster = df_Movies[df_Movies["tconst"] == movie_id.iloc[0]]["cluster"].iloc[0]
-    st.write(cluster)
-    st.write('cluster :' + cluster)
 
     df_inter=df_Movies.loc[df_Movies['cluster']==cluster]
 
