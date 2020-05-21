@@ -70,6 +70,7 @@ def GetNameAndYear(dataFrameParam, movie):
 
 @st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,movie_id):
+    st.dataframe(df_Movies[df_Movies["tconst"] == movie_id])
     cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
     st.write('cluster :' + cluster)
 
