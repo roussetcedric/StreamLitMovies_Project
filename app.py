@@ -166,13 +166,21 @@ def main():
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
             DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
-            st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
-            st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
-            st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
-            st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
-            st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
-            st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
-            st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
+            if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
+                st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
+            st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
+            if pd.notna(df_Display.iloc[x-1]["startYear"]) :
+                st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
+            if pd.notna(df_Display.iloc[x-1]["runtimeMinutes"]) :
+                st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
+            if pd.notna(df_Display.iloc[x-1]["averageRating"]) :
+                st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
+            if pd.notna(df_Display.iloc[x-1]["actorsName"]) :
+                st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
+            if pd.notna(df_Display.iloc[x-1]["directorsName"]) :
+                st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
+            if pd.notna(df_Display.iloc[x-1]["writersName"]) :
+                st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
