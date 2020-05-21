@@ -37,7 +37,7 @@ def DisplayPoster(UrlToDisplay):
         st.image(img, width=400)
  
 @st.cache(suppress_st_warning=True)
-def DisplayDataFrame(GenreList, DirectorList, ActorList):
+def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList):
     st.write(ActorList)
     df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
     st.write(DirectorList)
@@ -97,7 +97,7 @@ def main():
     DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
     GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
 
-    df_Display = DisplayDataFrame(GenreList_list, DirectorList_list, ActorList_list)
+    df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
     
     x = st.slider('x', 1, 5)
     if x < df_Display.shape[0]:
