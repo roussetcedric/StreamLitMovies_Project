@@ -10,6 +10,7 @@ import time
 @st.cache
 def load_data():
     df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
+    return df_Movies
 
 # Define CSS
 st.markdown("""
@@ -27,7 +28,7 @@ body {
 
 # Define Function --------------------------------------------
 
-
+@st.cache
 def DisplayPoster(UrlToDisplay):
     if UrlToDisplay:
         with urllib.request.urlopen(UrlToDisplay) as url:
@@ -35,7 +36,7 @@ def DisplayPoster(UrlToDisplay):
         img = Image.open(f)
         st.image(img, width=400)
  
-
+@st.cache
 def DisplayDataFrame(GenreList, DirectorList, ActorList):
     st.write(ActorList)
     df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
@@ -45,7 +46,7 @@ def DisplayDataFrame(GenreList, DirectorList, ActorList):
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
     return df_DisplayLocal
 
-
+@st.cache
 def get_poster_from_api(movie_id):
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     poster_base_url = 'https://image.tmdb.org/t/p/original'
@@ -59,7 +60,7 @@ def get_poster_from_api(movie_id):
         poster_url = "https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/pngtree-latest-movie-poster-design-image_163485.jpg"
     return poster_url
 
-
+@st.cache
 def GetNameAndYear(dataFrameParam, movie):
     df_temp = dataFrameParam.loc[dataFrameParam['primaryTitle'].str.lower().str.contains(movie.lower())][['primaryTitle', 'startYear', 'tconst']].sort_values('startYear')
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
@@ -69,8 +70,8 @@ def GetNameAndYear(dataFrameParam, movie):
 
 def main():
 
-    load_data()
-    
+    df_Movies = load_data()
+
     my_bar = st.progress(0)
     for percent_complete in range(100):
         time.sleep(0.01)
