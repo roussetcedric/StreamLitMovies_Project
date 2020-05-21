@@ -7,7 +7,9 @@ import urllib.request
 import time
 
 # Load Data -----------------------------------------------------
-df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
+@st.cache
+def load_data():
+    df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
 
 # Define CSS
 st.markdown("""
@@ -66,6 +68,9 @@ def GetNameAndYear(dataFrameParam, movie):
 
 
 def main():
+
+    load_data()
+    
     my_bar = st.progress(0)
     for percent_complete in range(100):
         time.sleep(0.01)
