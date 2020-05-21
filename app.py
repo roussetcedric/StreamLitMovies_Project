@@ -70,9 +70,8 @@ def GetNameAndYear(dataFrameParam, movie):
 
 @st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,movie_id):
-    from sklearn.neighbors import KNeighborsClassifier
-
-    cluster=list(df_Movies['cluster'].loc[df_Movies['tconst']==movie_id])[0]
+    cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
+    st.write('cluster :' + cluster)
 
     df_inter=df_Movies.loc[df_Movies['cluster']==cluster]
 
@@ -105,7 +104,7 @@ def main():
 
     #Select Movie
     st.title('I Know what you see last night')
-    st.write('Tapez un mot clé !')
+    st.write('Tapez le titre d\'un film !')
     title = st.text_input('', '')
     if title != '' :
         df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
