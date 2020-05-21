@@ -7,6 +7,7 @@ import urllib.request
 import time
 import SessionState
 from sklearn.neighbors import KNeighborsClassifier
+import random
 
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
@@ -160,12 +161,15 @@ def main():
         ComposerList_list = ''
 
     if session_state.button_selected:
-        #df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-        df_Display = KnnPrediction(df_Movies,IndiceFilm)
+        df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
+        df_Display = KnnPrediction(df_Filtered,IndiceFilm)
 
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
             DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
+            score = random.randint(1, 10)
+            st.write('* **Recommandation** : ' + str(score))
+            my_bar = st.progress(score)
             if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
                 st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
             st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
@@ -183,8 +187,6 @@ def main():
                 st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
-
-            my_bar = st.progress(80)
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
