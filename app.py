@@ -85,17 +85,22 @@ def main():
         st.write('Choississez votre film :')
         MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
         IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
-        st.write(IndiceFilm)
+
         df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
-        st.dataframe(df_MovieSelectedOne)
         DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
         st.write('Title : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
-
-    # Define Side Menu ----------------------------------------------
-    st.sidebar.title("Film Filters")
-    ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
-    DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
-    GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
+        st.write('Year : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
+        st.write('Duration : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + 'min')
+        st.write('Rating : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
+        # Define Side Menu ----------------------------------------------
+        st.sidebar.title("Film Filters")
+        ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
+        DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
+        GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
+    else :
+        ActorList_list = ''
+        DirectorList_list = ''
+        GenreList_list = ''
 
     df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
     
