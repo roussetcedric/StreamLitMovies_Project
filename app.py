@@ -99,7 +99,7 @@ def KnnPrediction(df_Movies,df_movie_id):
     MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
 
     clusterList = []
-    for i in range(1,7):
+    for i in range(1,6):
         clusterList.append(df_inter.iloc[MovieTemp[1][0][i]]['tconst'])
 
     df_Cluster = df_Movies[df_Movies["tconst"].isin(clusterList)]
