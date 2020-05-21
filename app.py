@@ -94,7 +94,7 @@ def main():
         st.write('Rating : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
 
         if st.button('Select This Movie'):
-...         MovieIsSelected = True
+            MovieIsSelected = True
         else :
             MovieIsSelected = False
         
