@@ -63,6 +63,20 @@ def get_poster_from_api(movie_id):
     return poster_url
 
 @st.cache(suppress_st_warning=True)
+def get_overview_from_api(movie_id):
+    MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
+    poster_base_url = 'https://image.tmdb.org/t/p/original'
+    overview = ""
+    movie_url = 'https://api.themoviedb.org/3/find/'+movie_id+'?api_key='+MOVIEDB_API_KEY+'&language=fr-FR&external_source=imdb_id'
+    try:
+        with urllib.request.urlopen(movie_url) as response:
+            data = json.loads(response.read())
+        overview = poster_base_url+data['movie_results'][0]['overview']
+    except:
+        overview = ""
+    return overview
+
+@st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
     df_temp = dataFrameParam.loc[dataFrameParam['primaryTitle'].str.lower().str.contains(movie.lower())][['primaryTitle', 'startYear', 'tconst']].sort_values('startYear')
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
@@ -116,6 +130,7 @@ def main():
         df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
         DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
         st.write('* **Title** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
+        st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0]))
         st.write('* **Year** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
         st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
