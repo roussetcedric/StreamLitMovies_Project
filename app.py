@@ -84,6 +84,8 @@ def KnnPrediction(df_Movies,df_movie_id):
     model_KNN.fit(X,y)
 
     MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
+    st.write("MovieTemp")
+    st.write(MovieTemp)
     return MovieTemp[1:6]
 
 def main():
