@@ -53,6 +53,7 @@ def get_poster_from_api(movie_id):
     poster_base_url = 'https://image.tmdb.org/t/p/original'
     poster_url = ''
     movie_url = 'https://api.themoviedb.org/3/find/'+movie_id+'?api_key='+MOVIEDB_API_KEY+'&language=fr-FR&external_source=imdb_id'
+    st.write(movie_url)
     try:
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
@@ -86,11 +87,10 @@ def KnnPrediction(df_Movies,df_movie_id):
     MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
 
     clusterList = []
-    for i in range(1,6):
+    for i in range(1,7):
         clusterList.append(df_inter.iloc[MovieTemp[1][0][i]]['tconst'])
 
     df_Cluster = df_Movies[df_Movies["tconst"].isin(clusterList)]
-    st.dataframe(df_Cluster)
     return df_Cluster
 
 def main():
