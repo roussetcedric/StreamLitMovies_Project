@@ -85,10 +85,11 @@ def KnnPrediction(df_Movies,df_movie_id):
 
     MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
 
-    df_Cluster = pd.DataFrame()
+    clusterList = []
     for i in range(1,6):
-        st.write(df_inter.iloc[MovieTemp[1][0][i]])
-        df_Cluster.append(df_inter.iloc[MovieTemp[1][0][i]], ignore_index=True)
+        clusterList.append(df_inter.iloc[MovieTemp[1][0][i]]['tconst'])
+
+    df_Cluster = df_Movies[df_Movies["tconst"].isin(clusterList)]
     st.dataframe(df_Cluster)
     return df_Cluster
 
@@ -148,7 +149,7 @@ def main():
     if session_state.button_selected:
         #df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
         df_Display = KnnPrediction(df_Movies,IndiceFilm)
-        st.dataframe(df_Display)
+
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
             DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
