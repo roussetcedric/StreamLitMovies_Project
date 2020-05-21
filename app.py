@@ -37,11 +37,8 @@ def DisplayPoster(UrlToDisplay):
  
 @st.cache(suppress_st_warning=True)
 def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList):
-    st.write(ActorList)
     df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
-    st.write(DirectorList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["directorsName"].str.contains('|'.join(DirectorList))]
-    st.write(GenreList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
     return df_DisplayLocal
 
@@ -66,7 +63,7 @@ def GetNameAndYear(dataFrameParam, movie):
     df_temp['movieTuple'] = list(zip(df_temp['titleYear'], df_temp['tconst']))
     return df_temp
 
-
+MovieIsSelected = False
 def main():
 
     df_Movies = load_data()
@@ -103,16 +100,22 @@ def main():
         DirectorList_list = ''
         GenreList_list = ''
 
-    df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
+    if st.button('Select this movie !'):
+        MovieIsSelected = True
 
-   
-    x = st.slider('x', 1, 5)
-    if x < df_Display.shape[0]:
-        DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
-        st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
-        st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
-        st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
-        st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
+    if MovieIsSelected :
+        df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
+        x = st.slider('x', 1, 5)
+        if x < df_Display.shape[0]:
+            DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
+            st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
+            st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
+            st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
+            st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
+
+        if st.button('Reset selection !'):
+            MovieIsSelected = False
+            title = ''
 
 if __name__ == '__main__':
     main()
