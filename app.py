@@ -6,6 +6,7 @@ import json
 import urllib.request
 import time
 import SessionState
+from sklearn.neighbors import KNeighborsClassifier
 
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
@@ -37,10 +38,12 @@ def DisplayPoster(UrlToDisplay):
         st.image(img, width=400)
  
 @st.cache(suppress_st_warning=True)
-def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList):
+def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList, WriterList, ComposerList):
     df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["directorsName"].str.contains('|'.join(DirectorList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
+    df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["writersName"].str.contains('|'.join(WriterList))]
+    df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
     return df_DisplayLocal
 
 @st.cache(suppress_st_warning=True)
@@ -63,6 +66,31 @@ def GetNameAndYear(dataFrameParam, movie):
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
     df_temp['movieTuple'] = list(zip(df_temp['titleYear'], df_temp['tconst']))
     return df_temp
+
+@st.cache(suppress_st_warning=True)
+def KnnPrediction(df_Movies,movie_id):
+    from sklearn.neighbors import KNeighborsClassifier
+
+    cluster=list(df_Movies['cluster'].loc[df_Movies['tconst']==movie_id])[0]
+
+    df_inter=df_Movies.loc[df_Movies['cluster']==cluster]
+
+    columns=['isAdult','startYear','runtimeMinutes','averageRating','numVotes']
+
+    X=df_inter[columns]
+    y=df_inter['tconst']
+
+    caracteristics=[]
+    for i in columns:
+        caracteristic=list(df_inter[df_inter['tconst']==movie_id][i])[0]
+        caracteristics.append(caracteristic)
+
+
+    model_KNN = KNeighborsClassifier(n_neighbors=5)
+    model_KNN.fit(X,y)
+
+    MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movieID, columns],n_neighbors=6)
+    return MovieTemp[1:6]
 
 def main():
 
@@ -90,12 +118,20 @@ def main():
         st.write('* **Year** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
         st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
+        st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
+        st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
+        st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
+        st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
+        st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
+
         
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
+        GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
         ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
         DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
-        GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
+        WriterList_list = st.sidebar.multiselect("Select Writer", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
+        ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
 
         if st.button('Select this movie !') :
             session_state.button_selected = True
@@ -104,10 +140,13 @@ def main():
         ActorList_list = ''
         DirectorList_list = ''
         GenreList_list = ''
+        WriterList_list = ''
+        ComposerList_list = ''
 
     if session_state.button_selected:
-        st.write("Display Prediction")
-        df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
+        #df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
+        df_Display = KnnPrediction(df_Movies,IndiceFilm)
+        st.dataframe(df_Display)
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
             DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
@@ -115,6 +154,10 @@ def main():
             st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
             st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
             st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
+            st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
+            st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
+            st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
+            st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
