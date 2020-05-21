@@ -11,7 +11,8 @@ from sklearn.neighbors import KNeighborsClassifier
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
 def load_data():
-    df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
+    #df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
+    df_Movies = pd.read_csv("https://drive.google.com/uc?id=1o7-dyBewlOKIgb9dT9ckXsjvKVZBuduM")
     return df_Movies
 
 # Define CSS
@@ -122,7 +123,8 @@ def main():
         st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
         st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
-        st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
+        if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
+            st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
 
         
         # Define Side Menu ----------------------------------------------
@@ -131,7 +133,8 @@ def main():
         ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
         DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
         WriterList_list = st.sidebar.multiselect("Select Writer", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
-        ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
+        if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
+            ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
 
         if st.button('Select this movie !') :
             session_state.button_selected = True
@@ -157,7 +160,8 @@ def main():
             st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
             st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
             st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
-            st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
+            if pd.notna(df_Display.iloc[x-1]["composersName"]) :
+                st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
