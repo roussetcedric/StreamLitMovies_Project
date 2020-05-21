@@ -7,7 +7,7 @@ import urllib.request
 import time
 
 # Load Data -----------------------------------------------------
-@st.cache
+@st.cache(suppress_st_warning=True)
 def load_data():
     df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
     return df_Movies
@@ -28,7 +28,7 @@ body {
 
 # Define Function --------------------------------------------
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def DisplayPoster(UrlToDisplay):
     if UrlToDisplay:
         with urllib.request.urlopen(UrlToDisplay) as url:
@@ -36,7 +36,7 @@ def DisplayPoster(UrlToDisplay):
         img = Image.open(f)
         st.image(img, width=400)
  
-@st.cache
+@st.cache(suppress_st_warning=True)
 def DisplayDataFrame(GenreList, DirectorList, ActorList):
     st.write(ActorList)
     df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
@@ -46,7 +46,7 @@ def DisplayDataFrame(GenreList, DirectorList, ActorList):
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
     return df_DisplayLocal
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def get_poster_from_api(movie_id):
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     poster_base_url = 'https://image.tmdb.org/t/p/original'
@@ -60,7 +60,7 @@ def get_poster_from_api(movie_id):
         poster_url = "https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/pngtree-latest-movie-poster-design-image_163485.jpg"
     return poster_url
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
     df_temp = dataFrameParam.loc[dataFrameParam['primaryTitle'].str.lower().str.contains(movie.lower())][['primaryTitle', 'startYear', 'tconst']].sort_values('startYear')
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
@@ -78,14 +78,19 @@ def main():
         my_bar.progress(percent_complete + 1)
 
     #Select Movie
-    title = st.text_input('Cherchez votre film', 'Taper un mot clé ici !')
+    st.title('I Know what you see last night')
+    st.write('Tapez un mot clé !')
+    title = st.text_input('', '')
     df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-    MovieSelectedTitle = st.selectbox('Choississez votre film ?', df_SelectedNameAndYear["titleYear"].to_list())
+    st.write('Choississez votre film :')
+    MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
     IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
     st.write(IndiceFilm)
     df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
     st.dataframe(df_MovieSelectedOne)
     DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
+    st.write('Title : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
+
     # Define Side Menu ----------------------------------------------
     st.sidebar.title("Film Filters")
     ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
