@@ -68,7 +68,6 @@ def main():
 
     df_Movies = load_data()
     session_state = SessionState.get(name="", button_selected=False)
-    button_selected = st.button('Select this movie !')
 
     my_bar = st.progress(0)
     for percent_complete in range(100):
@@ -102,10 +101,14 @@ def main():
         DirectorList_list = ''
         GenreList_list = ''
 
+    button_selected = st.button('Select this movie !')
+
     if button_selected:
         session_state.button_sent = True
+        st.write("Change button_selected")
 
     if session_state.button_selected:
+        st.write("Display Prediction")
         df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
