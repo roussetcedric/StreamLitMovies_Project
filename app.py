@@ -28,7 +28,6 @@ body {
 
 # Define Function --------------------------------------------
 
-@st.cache(suppress_st_warning=True)
 def DisplayPoster(UrlToDisplay):
     if UrlToDisplay:
         with urllib.request.urlopen(UrlToDisplay) as url:
@@ -81,15 +80,16 @@ def main():
     st.title('I Know what you see last night')
     st.write('Tapez un mot clé !')
     title = st.text_input('', '')
-    df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-    st.write('Choississez votre film :')
-    MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
-    IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
-    st.write(IndiceFilm)
-    df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
-    st.dataframe(df_MovieSelectedOne)
-    DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
-    st.write('Title : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
+    if title != '' :
+        df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
+        st.write('Choississez votre film :')
+        MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
+        IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
+        st.write(IndiceFilm)
+        df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
+        st.dataframe(df_MovieSelectedOne)
+        DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
+        st.write('Title : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
 
     # Define Side Menu ----------------------------------------------
     st.sidebar.title("Film Filters")
