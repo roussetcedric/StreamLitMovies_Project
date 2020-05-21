@@ -164,8 +164,8 @@ def main():
         ComposerList_list = ''
 
     if session_state.button_selected:
-        df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-        df_Display = KnnPrediction(df_Filtered,IndiceFilm)
+        #df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
+        df_Display = KnnPrediction(df_Movies,IndiceFilm)
 
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
