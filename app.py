@@ -161,7 +161,11 @@ def main():
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
 
-        
+        preview_url = get_preview_from_api(IndiceFilm.iloc[0])
+            if preview_url != '':
+                if st.button('Voir la Bande Annonce !'):
+                    st.video(BA_url, start_time=0)
+
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
         GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
@@ -211,12 +215,10 @@ def main():
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
-            BA_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
-            st.write(BA_url)
-            if BA_url != '':
-                st.write("Affiche la Bande Annonce")
+            preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
+            if preview_url != '':
                 if st.button('Voir la Bande Annonce !'):
-                    streamlit.video(BA_url, start_time=0)
+                    st.video(BA_url, start_time=0)
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
