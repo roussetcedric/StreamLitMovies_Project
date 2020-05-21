@@ -45,7 +45,8 @@ def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList, WriterList, C
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["directorsName"].str.contains('|'.join(DirectorList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["writersName"].str.contains('|'.join(WriterList))]
-    df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
+    st.wirte(ComposerList)
+    #df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
     return df_DisplayLocal
 
 @st.cache(suppress_st_warning=True)
