@@ -92,6 +92,12 @@ def main():
         st.write('Year : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
         st.write('Duration : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + 'min')
         st.write('Rating : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
+
+        if st.button('Select This Movie'):
+...         MovieIsSelected = True
+        else :
+            MovieIsSelected = False
+        
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
         ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
@@ -103,10 +109,11 @@ def main():
         GenreList_list = ''
 
     df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
-    
-    x = st.slider('x', 1, 5)
-    if x < df_Display.shape[0]:
-        DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
+
+    if MovieIsSelected :    
+        x = st.slider('x', 1, 5)
+        if x < df_Display.shape[0]:
+            DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
 
 if __name__ == '__main__':
     main()
