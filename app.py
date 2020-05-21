@@ -5,6 +5,7 @@ import io
 import json
 import urllib.request
 import time
+import SessionState
 
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
@@ -63,10 +64,11 @@ def GetNameAndYear(dataFrameParam, movie):
     df_temp['movieTuple'] = list(zip(df_temp['titleYear'], df_temp['tconst']))
     return df_temp
 
-MovieIsSelected = False
 def main():
 
     df_Movies = load_data()
+    session_state = SessionState.get(name="", button_selected=False)
+    button_selected = st.button('Select this movie !')
 
     my_bar = st.progress(0)
     for percent_complete in range(100):
@@ -100,10 +102,10 @@ def main():
         DirectorList_list = ''
         GenreList_list = ''
 
-    if st.button('Select this movie !'):
-        MovieIsSelected = True
+    if button_selected:
+        session_state.button_sent = True
 
-    if MovieIsSelected :
+    if session_state.button_selected:
         df_Display = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list)
         x = st.slider('x', 1, 5)
         if x < df_Display.shape[0]:
