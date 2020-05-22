@@ -9,6 +9,7 @@ import SessionState
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import jellyfish
+from IPython.display import YouTubeVideo
 
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
@@ -87,7 +88,8 @@ def get_preview_from_api(movie_id):
             data = json.loads(response.read())
         site = data['results'][0]['site']
         if site == 'YouTube':
-            video_url = 'https://www.youtube.com/watch?v='+data['results'][0]['key']
+            #video_url = 'https://www.youtube.com/watch?v='+data['results'][0]['key']
+            video_url = str(data['results'][0]['key'])
         else :
             video_url = ''
     except:
@@ -167,6 +169,7 @@ def main():
         if preview_url != '':
             if st.button('Voir la Bande Annonce !'):
                 st.write(preview_url)
+                YouTubeVideo(preview_url)
 
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
@@ -221,7 +224,7 @@ def main():
             if preview_url != '':
                 if st.button('Voir la Bande Annonce !'):
                     st.write(preview_url)
-                    #st.video(preview_url, start_time=0)
+                    YouTubeVideo(preview_url)
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
