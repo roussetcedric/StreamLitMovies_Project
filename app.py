@@ -191,7 +191,7 @@ def main():
         df_Display = KnnPrediction(df_Movies,IndiceFilm)
 
         x = st.slider('x', 1, 5)
-        if x < df_Display.shape[0]:
+        if x <= df_Display.shape[0]:
             DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
             score = random.randint(1, 100)
             st.write('* **Recommandation** : ' + str(score) + '%')
