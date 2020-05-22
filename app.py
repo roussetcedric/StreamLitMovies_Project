@@ -99,7 +99,7 @@ def GetNameAndYear(dataFrameParam, movie):
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
     df_temp['movieTuple'] = list(zip(df_temp['titleYear'], df_temp['tconst']))
     df_temp['Lenght'] = df_temp['primaryTitle'].str.len()
-    df_temp.sort_values(by=['Lenght'])
+    df_temp = df_temp.sort_values(by=['Lenght'])
     return df_temp
 
 @st.cache(suppress_st_warning=True)
