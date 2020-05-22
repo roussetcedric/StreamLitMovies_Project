@@ -169,7 +169,8 @@ def main():
         if preview_url != '':
             if st.button('Voir la Bande Annonce !'):
                 st.write(preview_url)
-                YouTubeVideo(preview_url)
+                #YouTubeVideo(preview_url)
+                YouTubeVideo('VIsY2k-Up4E')
 
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
