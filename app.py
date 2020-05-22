@@ -98,7 +98,7 @@ def GetNameAndYear(dataFrameParam, movie):
     df_temp = dataFrameParam.loc[dataFrameParam['primaryTitle'].str.lower().str.contains(movie.lower())][['primaryTitle', 'startYear', 'tconst']].sort_values('startYear')
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
     df_temp['movieTuple'] = list(zip(df_temp['titleYear'], df_temp['tconst']))
-    df_temp['Lenght'] = len(df_temp['primaryTitle'].str)
+    df_temp['Lenght'] = df_temp['primaryTitle'].str.len()
     df_temp.sort_values(by=['Lenght'])
     return df_temp
 
