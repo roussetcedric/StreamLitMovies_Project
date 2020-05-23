@@ -162,8 +162,9 @@ def main():
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
+        preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
-            st.write('* **Preview** : ' + str(get_preview_from_api(IndiceFilm.iloc[0])))
+            st.write('* **Preview** : ' + str(preview_url))
 
         '''
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
@@ -222,6 +223,9 @@ def main():
                 st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
+            preview_url = get_preview_from_api(IndiceFilm.iloc[0])
+            if preview_url != '':
+                st.write('* **Preview** : ' + str(preview_url))
 
             '''
             preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
