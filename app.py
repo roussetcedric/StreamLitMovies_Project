@@ -140,12 +140,12 @@ def main():
         my_bar.progress(percent_complete + 1)
 
     #Select Movie
-    st.title('I Know what you see last night')
-    st.write('Tapez le titre d\'un film !')
+    st.title('I know what you saw last night')
+    st.write('Type your movie title here !')
     title = st.text_input('', '')
     if title != '' :
         df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-        st.write('Choississez votre film :')
+        st.write('Choose ypur movie :')
         MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
         IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
@@ -162,13 +162,17 @@ def main():
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
+        if preview_url != '':
+            st.write('* **Preview** : ' + str(get_preview_from_api(IndiceFilm.iloc[0])))
 
+        '''
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
             if st.button('Voir la Bande Annonce !'):
                 st.write(preview_url)
                 vid_file = open(preview_url,"rb").read()
                 st.video(vid_file)
+        '''
 
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
@@ -219,10 +223,12 @@ def main():
             if pd.notna(df_Display.iloc[x-1]["composersName"]) :
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
 
+            '''
             preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
             if preview_url != '':
                 if st.button('Voir la Bande Annonce !'):
                     st.write(preview_url)
+            '''
 
         if st.button('Reset selection !'):
             session_state.button_selected = False
