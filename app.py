@@ -43,21 +43,11 @@ def DisplayPoster(UrlToDisplay):
 @st.cache(suppress_st_warning=True)
 def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList, WriterList, ComposerList):
     df_DisplayLocal = df_Movies.fillna(value="")
-    st.write(ActorList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["actorsName"].str.contains('|'.join(ActorList))]
-    st.write(df_DisplayLocal.shape)
-    st.write(DirectorList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["directorsName"].str.contains('|'.join(DirectorList))]
-    st.write(df_DisplayLocal.shape)
-    st.write(GenreList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
-    st.write(df_DisplayLocal.shape)
-    st.write(WriterList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["writersName"].str.contains('|'.join(WriterList))]
-    st.write(df_DisplayLocal.shape)
-    st.write(ComposerList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
-    st.write(df_DisplayLocal.shape)
     return df_DisplayLocal
 
 @st.cache(suppress_st_warning=True)
@@ -199,8 +189,7 @@ def main():
 
     if session_state.button_selected:
         df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-        st.dataframe(df_Filtered)
-        df_Display = KnnPrediction(df_Movies,IndiceFilm)
+        df_Display = KnnPrediction(df_Filtered,IndiceFilm)
 
         x = st.slider('x', 1, 5)
         if x <= df_Display.shape[0]:
