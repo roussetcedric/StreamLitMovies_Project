@@ -107,15 +107,15 @@ def GetNameAndYear(dataFrameParam, movie):
 
 @st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,df_movie_id):
-    st.write(df_Movies.shape[0])
-    if df_Movies.shape[0] < 6 :
+
+    movie_id = df_movie_id.iloc[0]
+    cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
+
+    df_inter=df_Movies.loc[df_Movies['cluster']==cluster]
+
+    if df_inter.shape[0] < 6 :
         df_Cluster = df_Movies
     else : 
-        movie_id = df_movie_id.iloc[0]
-        cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
-
-        df_inter=df_Movies.loc[df_Movies['cluster']==cluster]
-
         columns=['isAdult','startYear','runtimeMinutes','averageRating','numVotes']
 
         X=df_inter[columns]
