@@ -111,7 +111,8 @@ def KnnPrediction(df_Movies,df_movie_id):
         NB_neighbors = 6
     else : 
         NB_neighbors = df_Movies.shape[0]
-        
+    st.write(df_Movies.shape[0])
+
     movie_id = df_movie_id.iloc[0]
     cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
 
