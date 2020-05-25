@@ -42,14 +42,19 @@ def DisplayPoster(UrlToDisplay):
  
 @st.cache(suppress_st_warning=True)
 def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList, WriterList, ComposerList):
+    st.write(ActorList)
     df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
     st.write(df_DisplayLocal.shape)
+    st.write(DirectorList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["directorsName"].str.contains('|'.join(DirectorList))]
     st.write(df_DisplayLocal.shape)
+    st.write(GenreList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
     st.write(df_DisplayLocal.shape)
+    st.write(WriterList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["writersName"].str.contains('|'.join(WriterList))]
     st.write(df_DisplayLocal.shape)
+    st.write(ComposerList)
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
     st.write(df_DisplayLocal.shape)
     return df_DisplayLocal
