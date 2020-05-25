@@ -184,17 +184,17 @@ def main():
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
         else : 
-            ComposerList_list = ''
+            ComposerList_list = []
 
         if st.button('Select this movie !') :
             session_state.button_selected = True
 
     else :
-        ActorList_list = ''
-        DirectorList_list = ''
-        GenreList_list = ''
-        WriterList_list = ''
-        ComposerList_list = ''
+        ActorList_list = []
+        DirectorList_list = []
+        GenreList_list = []
+        WriterList_list = []
+        ComposerList_list = []
 
     if session_state.button_selected:
         df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
