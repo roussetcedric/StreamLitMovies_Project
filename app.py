@@ -107,6 +107,11 @@ def GetNameAndYear(dataFrameParam, movie):
 
 @st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,df_movie_id):
+    if df_Movies.shape[0] > 5 :
+        NB_neighbors = 6
+    else : 
+        NB_neighbors = df_Movies.shape[0]
+        
     movie_id = df_movie_id.iloc[0]
     cluster = df_Movies[df_Movies["tconst"] == movie_id]["cluster"].iloc[0]
 
@@ -117,13 +122,13 @@ def KnnPrediction(df_Movies,df_movie_id):
     X=df_inter[columns]
     y=df_inter['tconst']
 
-    model_KNN = KNeighborsClassifier(n_neighbors=5)
+    model_KNN = KNeighborsClassifier(n_neighbors=NB_neighbors)
     model_KNN.fit(X,y)
 
-    MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
+    MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=NB_neighbors)
 
     clusterList = []
-    for i in range(1,6):
+    for i in range(1,NB_neighbors):
         clusterList.append(df_inter.iloc[MovieTemp[1][0][i]]['tconst'])
 
     df_Cluster = df_Movies[df_Movies["tconst"].isin(clusterList)]
