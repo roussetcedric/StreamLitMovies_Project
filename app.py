@@ -97,13 +97,13 @@ def get_preview_from_api(movie_id):
 @st.cache(suppress_st_warning=True)
 def get_pic_from_api(movie_id):
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
-    pic_url = ''
     movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
     #+'&language=fr-FR'
+    st.write(movie_url)
     try:
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
-        cast = data['cast'][0]['site']
+        cast = data['cast']
         for actor in cast :
             st.write(actor)
     except:
