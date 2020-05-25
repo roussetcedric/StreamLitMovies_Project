@@ -98,7 +98,6 @@ def get_preview_from_api(movie_id):
 def get_pic_from_api(movie_id):
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
-    #+'&language=fr-FR'
     st.write(movie_url)
     try:
         with urllib.request.urlopen(movie_url) as response:
@@ -108,6 +107,7 @@ def get_pic_from_api(movie_id):
             st.write(actor)
     except:
         st.write("No Actors")
+    return "get_pic_from_api"
 
 @st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
