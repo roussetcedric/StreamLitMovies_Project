@@ -55,7 +55,7 @@ def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList, WriterList, C
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["writersName"].str.contains('|'.join(WriterList))]
     st.write(df_DisplayLocal.shape)
     st.write(ComposerList)
-    df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
+    #df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["composersName"].str.contains('|'.join(ComposerList))]
     st.write(df_DisplayLocal.shape)
     return df_DisplayLocal
 
