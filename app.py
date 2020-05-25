@@ -104,11 +104,11 @@ def get_pic_from_api(movie_id):
             data = json.loads(response.read())
         cast = data['cast']
         for actor in cast[0:5] :
-            st.write(actor)
+            st.write('* **Actor** : ' + actor["name"])
             with urllib.request.urlopen("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]) as url:
                 f = io.BytesIO(url.read())
             img = Image.open(f)
-            st.image(img, width=400)
+            st.image(img, width=138, caption=actor["character"])
     except:
         st.write("")
     return "get_pic_from_api"
