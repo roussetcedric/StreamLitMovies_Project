@@ -107,6 +107,7 @@ def GetNameAndYear(dataFrameParam, movie):
 
 @st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,df_movie_id):
+    st.write(df_Movies.shape[0])
     if df_Movies.shape[0] < 6 :
         df_Cluster = df_Movies
     else : 
