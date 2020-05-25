@@ -195,7 +195,7 @@ def main():
         df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
         df_Display = KnnPrediction(df_Filtered,IndiceFilm)
 
-        x = st.slider('x', 1, 5)
+        x = st.slider('x', 1, df_Display.shape[0])
         if x <= df_Display.shape[0]:
             DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
             score = random.randint(1, 100)
