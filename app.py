@@ -107,7 +107,7 @@ def get_pic_from_api(movie_id):
         for actor in cast :
             st.write(actor)
     except:
-        st.write(No Actors)
+        st.write("No Actors")
 
 @st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
