@@ -120,7 +120,7 @@ def KnnPrediction(df_Movies,df_movie_id):
         X=df_inter[columns]
         y=df_inter['tconst']
 
-        model_KNN = KNeighborsClassifier(n_neighbors=5)
+        model_KNN = KNeighborsClassifier(n_neighbors=6)
         model_KNN.fit(X,y)
 
         MovieTemp = model_KNN.kneighbors(df_inter.loc[df_inter['tconst']==movie_id, columns],n_neighbors=6)
