@@ -241,7 +241,7 @@ def main():
         get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
         get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
-        get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"]):
+        get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"])
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
             st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
@@ -298,7 +298,7 @@ def main():
             get_director_pic_from_api(df_Display.iloc[x-1]["tconst"],df_Display.iloc[x-1]["directorsName"])
             if pd.notna(df_Display.iloc[x-1]["writersName"]) :
                 st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
-            get_composer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["composersName"]):
+            get_composer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["composersName"])
             preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
             if preview_url != '':
                 st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
