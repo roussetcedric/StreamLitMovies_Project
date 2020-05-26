@@ -109,7 +109,7 @@ def get_actor_pic_from_api(movie_id, actor_list):
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         cast = data['cast']
-        for actor in cast[0:5] :
+        for actor in cast[0:10] :
             picList.append(str("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]))
             captionList.append(actor["name"] +" - "+ actor["character"])
     except:
@@ -139,10 +139,10 @@ def get_director_pic_from_api(movie_id, director_list):
     except:
         st.write("")
     if(picList) != [] :
-        st.write('* **Actors** : ')
+        st.write('* **Director** : ')
         st.image(picList, width=100, caption=captionList)
     else :
-        st.write('* **Actors** : ' + director_list)
+        st.write('* **Director** : ' + director_list)
 
     return len(picList)
 
@@ -214,11 +214,7 @@ def main():
         st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
-        #st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
-        #st.write('* **Actors** : ')
         get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
-        #st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
-        #st.write('* **Directors** : ' )
         get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
@@ -276,8 +272,6 @@ def main():
                 st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
             if pd.notna(df_Display.iloc[x-1]["averageRating"]) :
                 st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
-            #if pd.notna(df_Display.iloc[x-1]["actorsName"]) :
-            #    st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
             get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["actorsName"])
             if pd.notna(df_Display.iloc[x-1]["directorsName"]) :
                 st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
