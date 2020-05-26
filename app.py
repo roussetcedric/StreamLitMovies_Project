@@ -221,7 +221,6 @@ def main():
             st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
-            st.write('* **Preview** : ' + str(preview_url))
             st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
 
         # Define Side Menu ----------------------------------------------
@@ -281,7 +280,7 @@ def main():
                 st.write('* **Composers** : ' + str(df_Display.iloc[x-1]["composersName"]))
             preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
             if preview_url != '':
-                st.write('* **Preview** : ' + str(preview_url))
+                st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
