@@ -252,7 +252,7 @@ def main():
         if Model == "Movie_Recommandation" :
             st.write("Movie_Recommandation")
             df_Display = KnnPrediction(df_Filtered,IndiceFilm)
-        elif Model == "User_Recommandantion"
+        elif Model == "User_Recommandantion" :
             st.write("User_Recommandantion")
             df_Display = df_Filtered
 
