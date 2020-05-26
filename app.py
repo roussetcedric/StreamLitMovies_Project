@@ -96,14 +96,14 @@ def get_preview_from_api(movie_id):
 
 @st.cache(suppress_st_warning=True)
 def get_actor_pic_from_api(movie_id):
+    picList = []
+    captionList = []
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
     try:
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         cast = data['cast']
-        picList = []
-        captionList = []
         for actor in cast[0:5] :
             picList.append(str("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]))
             captionList.append(actor["name"] +" - "+ actor["character"])
@@ -116,21 +116,21 @@ def get_actor_pic_from_api(movie_id):
 
 @st.cache(suppress_st_warning=True)
 def get_director_pic_from_api(movie_id):
+    picList = []
+    captionList = []
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
     try:
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         crew = data['crew']
-        picList = []
-        captionList = []
         for director in crew:
+            st.write(director)
             if director["job"] == "Director" :
                 picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+actor["profile_path"]))
                 captionList.append(director["name"])
     except:
         st.write("")
-    st.write(picList)
     if(picList) != [] :
         st.image(picList, width=100, caption=captionList)
 
