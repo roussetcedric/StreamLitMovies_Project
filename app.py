@@ -114,6 +114,30 @@ def get_pic_from_api(movie_id):
     return "get_pic_from_api"
 
 @st.cache(suppress_st_warning=True)
+def get_pic_paginator_from_api(movie_id):
+    MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
+    movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
+    st.write(movie_url)
+    try:
+        with urllib.request.urlopen(movie_url) as response:
+            data = json.loads(response.read())
+        cast = data['cast']
+        picList = []
+        captionList = []
+        for actor in cast[0:5] :
+            st.write('* **Actor** : ' + actor["name"])
+            picList.append(str("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]))
+            captionList.append(actor["character"])
+    except:
+        st.write("")
+
+    image_iterator = paginator("Select a sunset page", picList)
+    indices_on_page, images_on_page = map(list, zip(*image_iterator))
+    st.image(images_on_page, width=100, caption=captionList)
+
+    return "get_pic_paginator_from_api"
+
+@st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
     df_temp = dataFrameParam.loc[dataFrameParam['primaryTitle'].str.lower().str.contains(movie.lower())][['primaryTitle', 'startYear', 'tconst']].sort_values('startYear')
     df_temp['titleYear'] = df_temp['primaryTitle'].map(str) + ' (' + df_temp['startYear'].map(str) + ')'
@@ -181,7 +205,8 @@ def main():
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
         st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
-        get_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
+        #get_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
+        get_pic_paginator_from_api(df_MovieSelectedOne.iloc[0]["tconst"]:
         st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
