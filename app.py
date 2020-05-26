@@ -157,7 +157,7 @@ def get_composer_pic_from_api(movie_id, composer_list):
             data = json.loads(response.read())
         crew = data['crew']
         for composer in crew:
-            if "composer" is in composer["job"].lower() :
+            if composer["job"].str.lower().str.contains("composer") :
                 picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+composer["profile_path"]))
                 captionList.append(composer["name"])
     except:
