@@ -130,7 +130,7 @@ def get_pic_paginator_from_api(movie_id):
             captionList.append(actor["character"])
     except:
         st.write("")
-    st.image(images_on_page, width=100, caption=captionList)
+    st.image(picList, width=100, caption=captionList)
 
     return "get_pic_paginator_from_api"
 
