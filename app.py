@@ -190,7 +190,8 @@ def get_composer_pic_from_api(movie_id, composer_list):
         st.write('* **Composer** : ')
         st.image(picList, width=100, caption=captionList)
     else :
-        st.write('* **Composer** : ' + composer_list)
+        if composer_list != [] :
+            st.write('* **Composer** : ' + composer_list)
 
     return len(picList)
 
