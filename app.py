@@ -130,13 +130,9 @@ def get_director_pic_from_api(movie_id):
             data = json.loads(response.read())
         crew = data['crew']
         for director in crew:
-            st.write(director["job"])
             if director["job"] == "Director" :
                 picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+director["profile_path"]))
                 captionList.append(director["name"])
-                st.write(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+director["profile_path"]))
-            else :
-                st.write("No Director")
     except:
         st.write("")
     if(picList) != [] :
