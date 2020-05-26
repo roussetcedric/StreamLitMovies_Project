@@ -95,7 +95,7 @@ def get_preview_from_api(movie_id):
     return video_url
 
 @st.cache(suppress_st_warning=True)
-def get_pic_from_api(movie_id):
+def get_actor_pic_from_api(movie_id):
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
     movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
     try:
@@ -107,6 +107,26 @@ def get_pic_from_api(movie_id):
         for actor in cast[0:5] :
             picList.append(str("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]))
             captionList.append(actor["name"] +" - "+ actor["character"])
+    except:
+        st.write("")
+    st.image(picList, width=100, caption=captionList)
+
+    return "get_actor_pic_from_api"
+
+@st.cache(suppress_st_warning=True)
+def get_director_pic_from_api(movie_id):
+    MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
+    movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
+    try:
+        with urllib.request.urlopen(movie_url) as response:
+            data = json.loads(response.read())
+        crew = data['crew']
+        picList = []
+        captionList = []
+        for director in crew:
+            if director["job"] == "Director" :
+                picList.append(str("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]))
+                captionList.append(director["name"])
     except:
         st.write("")
     st.image(picList, width=100, caption=captionList)
@@ -181,8 +201,9 @@ def main():
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
         st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
-        get_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
+        get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
         st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
+        get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
@@ -232,6 +253,7 @@ def main():
                 st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
             if pd.notna(df_Display.iloc[x-1]["actorsName"]) :
                 st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
+            get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"])
             if pd.notna(df_Display.iloc[x-1]["directorsName"]) :
                 st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
             if pd.notna(df_Display.iloc[x-1]["writersName"]) :
