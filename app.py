@@ -156,10 +156,10 @@ def get_writer_pic_from_api(movie_id, writer_list):
         with urllib.request.urlopen(movie_url) as response:
             data = json.loads(response.read())
         crew = data['crew']
-        for composer in crew:
+        for writer in crew:
             if composer["job"].str.lower().str.contains("screenplay") :
-                picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+composer["profile_path"]))
-                captionList.append(composer["name"])
+                picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+writer["profile_path"]))
+                captionList.append(writer["name"])
     except:
         st.write("")
     if(picList) != [] :
