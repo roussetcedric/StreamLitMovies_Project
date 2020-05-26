@@ -109,7 +109,8 @@ def get_actor_pic_from_api(movie_id):
             captionList.append(actor["name"] +" - "+ actor["character"])
     except:
         st.write("")
-    st.image(picList, width=100, caption=captionList)
+    if(picList) != [] :
+        st.image(picList, width=100, caption=captionList)
 
     return "get_actor_pic_from_api"
 
@@ -124,12 +125,14 @@ def get_director_pic_from_api(movie_id):
         picList = []
         captionList = []
         for director in crew:
+            st.write(director)
             if director["job"] == "Director" :
                 picList.append(str("https://image.tmdb.org/t/p/w138_and_h175_face/"+actor["profile_path"]))
                 captionList.append(director["name"])
     except:
         st.write("")
-    st.image(picList, width=100, caption=captionList)
+    if(picList) != [] :
+        st.image(picList, width=100, caption=captionList)
 
     return "get_pic_from_api"
 
