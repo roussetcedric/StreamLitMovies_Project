@@ -117,7 +117,7 @@ def get_actor_pic_from_api(movie_id):
     if(picList) != [] :
         st.image(picList, width=100, caption=captionList)
 
-    return "get_actor_pic_from_api"
+    return len(picList)
 
 @st.cache(suppress_st_warning=True)
 def get_director_pic_from_api(movie_id):
@@ -138,7 +138,7 @@ def get_director_pic_from_api(movie_id):
     if(picList) != [] :
         st.image(picList, width=100, caption=captionList)
 
-    return "get_pic_from_api"
+    return len(picList)
 
 @st.cache(suppress_st_warning=True)
 def GetNameAndYear(dataFrameParam, movie):
@@ -208,9 +208,11 @@ def main():
         st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
-        st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
+        #st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
+        st.write('* **Actors** : ')
         get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
-        st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
+        #st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
+        st.write('* **Directors** : ' )
         get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
@@ -218,7 +220,7 @@ def main():
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
             st.write('* **Preview** : ' + str(preview_url))
-            st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>")
+            st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
 
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
