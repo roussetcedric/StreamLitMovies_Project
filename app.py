@@ -206,7 +206,7 @@ def main():
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
         st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
         #get_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
-        get_pic_paginator_from_api(df_MovieSelectedOne.iloc[0]["tconst"]
+        get_pic_paginator_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
         st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
