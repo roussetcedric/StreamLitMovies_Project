@@ -17,6 +17,11 @@ def load_data():
     df_Movies = pd.read_csv("https://drive.google.com/uc?id=1o7-dyBewlOKIgb9dT9ckXsjvKVZBuduM")
     return df_Movies
 
+@st.cache(suppress_st_warning=True)
+def load_data_User():
+    df_Users = pd.read_csv("https://drive.google.com/uc?id=1-3xSEOULQXOmMd2Cn-rgQ6JPsitSCz63")
+    return df_Users
+
 # Define CSS
 st.markdown("""
 <style>
@@ -125,10 +130,12 @@ def get_director_pic_from_api(movie_id):
             data = json.loads(response.read())
         crew = data['crew']
         for director in crew:
-            st.write(director)
+            st.write(director["job"])
             if director["job"] == "Director" :
                 picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+actor["profile_path"]))
                 captionList.append(director["name"])
+            else :
+                st.write("No Director")
     except:
         st.write("")
     if(picList) != [] :
@@ -178,6 +185,7 @@ def KnnPrediction(df_Movies,df_movie_id):
 def main():
 
     df_Movies = load_data()
+    df_Users = load_data_User()
     session_state = SessionState.get(name="", button_selected=False)
 
     my_bar = st.progress(0)
