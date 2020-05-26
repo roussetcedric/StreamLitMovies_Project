@@ -244,6 +244,12 @@ def main():
         ComposerList_list = []
 
     if session_state.button_selected:
+        Movie_Recommandation = st.sidebar.checkbox('Movie Recommandation')
+        User_Recommandantion = st.sidebar.checkbox('User Recommandantion')
+
+        st.write("Movie_Recommandation : " + Movie_Recommandation)
+        st.write("User_Recommandantion : " + User_Recommandantion)
+
         df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
         df_Display = KnnPrediction(df_Filtered,IndiceFilm)
 
