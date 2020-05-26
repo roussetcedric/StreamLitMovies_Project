@@ -147,6 +147,30 @@ def get_director_pic_from_api(movie_id, director_list):
     return len(picList)
 
 #@st.cache(suppress_st_warning=True)
+def get_writer_pic_from_api(movie_id, composer_list):
+    picList = []
+    captionList = []
+    MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
+    movie_url = 'https://api.themoviedb.org/3/movie/'+movie_id+'/credits?api_key='+MOVIEDB_API_KEY
+    try:
+        with urllib.request.urlopen(movie_url) as response:
+            data = json.loads(response.read())
+        crew = data['crew']
+        for composer in crew:
+            if composer["job"].str.lower().str.contains("screenplay") :
+                picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+composer["profile_path"]))
+                captionList.append(composer["name"])
+    except:
+        st.write("")
+    if(picList) != [] :
+        st.write('* **Writer** : ')
+        st.image(picList, width=100, caption=captionList)
+    else :
+        st.write('* **Writer** : ' + composer_list)
+
+    return len(picList)
+
+#@st.cache(suppress_st_warning=True)
 def get_composer_pic_from_api(movie_id, composer_list):
     picList = []
     captionList = []
