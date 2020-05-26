@@ -92,7 +92,7 @@ def get_preview_from_api(movie_id):
             data = json.loads(response.read())
         site = data['results'][0]['site']
         if site == 'YouTube':
-            video_url = 'https://www.youtube.com/watch?v='+data['results'][0]['key']
+            video_url = 'https://www.youtube.com/embed/'+data['results'][0]['key']
         else :
             video_url = ''
     except:
