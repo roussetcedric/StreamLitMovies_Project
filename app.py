@@ -130,9 +130,6 @@ def get_pic_paginator_from_api(movie_id):
             captionList.append(actor["character"])
     except:
         st.write("")
-
-    image_iterator = paginator("Select a sunset page", picList)
-    indices_on_page, images_on_page = map(list, zip(*image_iterator))
     st.image(images_on_page, width=100, caption=captionList)
 
     return "get_pic_paginator_from_api"
