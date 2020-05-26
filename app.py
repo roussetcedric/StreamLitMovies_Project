@@ -132,8 +132,9 @@ def get_director_pic_from_api(movie_id):
         for director in crew:
             st.write(director["job"])
             if director["job"] == "Director" :
-                picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+actor["profile_path"]))
+                picList.append(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+director["profile_path"]))
                 captionList.append(director["name"])
+                st.write(str("https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+director["profile_path"]))
             else :
                 st.write("No Director")
     except:
@@ -248,7 +249,12 @@ def main():
         st.write(Model)
 
         df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-        df_Display = KnnPrediction(df_Filtered,IndiceFilm)
+        if Model == "Movie_Recommandation" :
+            st.write("Movie_Recommandation")
+            df_Display = KnnPrediction(df_Filtered,IndiceFilm)
+        elif Model == "User_Recommandantion"
+            st.write("User_Recommandantion")
+            df_Display = df_Filtered
 
         x = st.slider('x', 1, df_Display.shape[0])
         if x <= df_Display.shape[0]:
