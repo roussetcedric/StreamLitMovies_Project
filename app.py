@@ -147,7 +147,7 @@ def get_director_pic_from_api(movie_id, director_list):
     return len(picList)
 
 #@st.cache(suppress_st_warning=True)
-def get_writer_pic_from_api(movie_id, composer_list):
+def get_writer_pic_from_api(movie_id, writer_list):
     picList = []
     captionList = []
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
@@ -166,7 +166,7 @@ def get_writer_pic_from_api(movie_id, composer_list):
         st.write('* **Writer** : ')
         st.image(picList, width=100, caption=captionList)
     else :
-        st.write('* **Writer** : ' + composer_list)
+        st.write('* **Writer** : ' + writer_list)
 
     return len(picList)
 
@@ -264,7 +264,7 @@ def main():
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
         get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
         get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
-        st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
+        get_writer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["writersName"])
         get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"])
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
@@ -320,8 +320,7 @@ def main():
                 st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
             get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["actorsName"])
             get_director_pic_from_api(df_Display.iloc[x-1]["tconst"],df_Display.iloc[x-1]["directorsName"])
-            if pd.notna(df_Display.iloc[x-1]["writersName"]) :
-                st.write('* **Writers** : ' + str(df_Display.iloc[x-1]["writersName"]))
+            get_writer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["writersName"])
             get_composer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["composersName"])
             preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
             if preview_url != '':
