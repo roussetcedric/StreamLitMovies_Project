@@ -100,7 +100,7 @@ def get_preview_from_api(movie_id):
     return video_url
 
 @st.cache(suppress_st_warning=True)
-def get_actor_pic_from_api(movie_id):
+def get_actor_pic_from_api(movie_id, actor_list):
     picList = []
     captionList = []
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
@@ -115,12 +115,15 @@ def get_actor_pic_from_api(movie_id):
     except:
         st.write("")
     if(picList) != [] :
+        st.write('* **Actors** : ')
         st.image(picList, width=100, caption=captionList)
+    else :
+        st.write('* **Actors** : ' + actor_list)
 
     return len(picList)
 
 @st.cache(suppress_st_warning=True)
-def get_director_pic_from_api(movie_id):
+def get_director_pic_from_api(movie_id, director_list):
     picList = []
     captionList = []
     MOVIEDB_API_KEY = '076f7a313a578e7764aa7344b143bc30'
@@ -136,7 +139,10 @@ def get_director_pic_from_api(movie_id):
     except:
         st.write("")
     if(picList) != [] :
+        st.write('* **Actors** : ')
         st.image(picList, width=100, caption=captionList)
+    else :
+        st.write('* **Actors** : ' + director_list)
 
     return len(picList)
 
@@ -209,11 +215,11 @@ def main():
         st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
         st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
         #st.write('* **Actors** : ' + str(df_MovieSelectedOne.iloc[0]["actorsName"]))
-        st.write('* **Actors** : ')
-        get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
+        #st.write('* **Actors** : ')
+        get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
         #st.write('* **Directors** : ' + str(df_MovieSelectedOne.iloc[0]["directorsName"]))
-        st.write('* **Directors** : ' )
-        get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
+        #st.write('* **Directors** : ' )
+        get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
         st.write('* **Writers** : ' + str(df_MovieSelectedOne.iloc[0]["writersName"]))
         if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
             st.write('* **Composers** : ' + str(df_MovieSelectedOne.iloc[0]["composersName"]))
@@ -270,9 +276,9 @@ def main():
                 st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
             if pd.notna(df_Display.iloc[x-1]["averageRating"]) :
                 st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
-            if pd.notna(df_Display.iloc[x-1]["actorsName"]) :
-                st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
-            get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"])
+            #if pd.notna(df_Display.iloc[x-1]["actorsName"]) :
+            #    st.write('* **Actors** : ' + str(df_Display.iloc[x-1]["actorsName"]))
+            get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["actorsName"])
             if pd.notna(df_Display.iloc[x-1]["directorsName"]) :
                 st.write('* **Directors** : ' + str(df_Display.iloc[x-1]["directorsName"]))
             if pd.notna(df_Display.iloc[x-1]["writersName"]) :
