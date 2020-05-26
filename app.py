@@ -15,6 +15,7 @@ import jellyfish
 def load_data():
     #df_Movies = pd.read_csv("https://raw.githubusercontent.com/roussetcedric/WCS_Public/master/imdb_movies_light.csv")
     df_Movies = pd.read_csv("https://drive.google.com/uc?id=1o7-dyBewlOKIgb9dT9ckXsjvKVZBuduM")
+    df_Movies = df_Movies.fillna(value="")
     return df_Movies
 
 @st.cache(suppress_st_warning=True)
@@ -47,8 +48,7 @@ def DisplayPoster(UrlToDisplay):
  
 @st.cache(suppress_st_warning=True)
 def DisplayDataFrame(df_Movies,GenreList, DirectorList, ActorList, WriterList, ComposerList):
-    df_DisplayLocal = df_Movies.fillna(value="")
-    df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["actorsName"].str.contains('|'.join(ActorList))]
+    df_DisplayLocal = df_Movies[df_Movies["actorsName"].str.contains('|'.join(ActorList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["directorsName"].str.contains('|'.join(DirectorList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["genres"].str.contains('|'.join(GenreList))]
     df_DisplayLocal = df_DisplayLocal[df_DisplayLocal["writersName"].str.contains('|'.join(WriterList))]
