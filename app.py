@@ -99,7 +99,7 @@ def get_preview_from_api(movie_id):
         video_url = ''
     return video_url
 
-@st.cache(suppress_st_warning=True)
+#@st.cache(suppress_st_warning=True)
 def get_actor_pic_from_api(movie_id, actor_list):
     picList = []
     captionList = []
@@ -122,7 +122,7 @@ def get_actor_pic_from_api(movie_id, actor_list):
 
     return len(picList)
 
-@st.cache(suppress_st_warning=True)
+#@st.cache(suppress_st_warning=True)
 def get_director_pic_from_api(movie_id, director_list):
     picList = []
     captionList = []
@@ -146,7 +146,7 @@ def get_director_pic_from_api(movie_id, director_list):
 
     return len(picList)
 
-@st.cache(suppress_st_warning=True)
+#@st.cache(suppress_st_warning=True)
 def get_composer_pic_from_api(movie_id, composer_list):
     picList = []
     captionList = []
