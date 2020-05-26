@@ -218,6 +218,7 @@ def main():
         preview_url = get_preview_from_api(IndiceFilm.iloc[0])
         if preview_url != '':
             st.write('* **Preview** : ' + str(preview_url))
+            st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>")
 
         # Define Side Menu ----------------------------------------------
         st.sidebar.title("Film Filters")
