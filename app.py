@@ -304,7 +304,7 @@ def main():
             ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Rating"])
             if ModelScore == "Popularity" :
                 df_Display=liste_film_user['tconst'].value_counts().nlargest(5).index
-                df_Display = df_Display.rename(columns=['tconst'])
+                df_Display.columns=['tconst']
                 st.write(df_Display)
             elif ModelScore == "Avis" :
                 liste_mean=liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index
