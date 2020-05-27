@@ -240,15 +240,17 @@ def main():
     df_Movies = load_data()
     df_Users = load_data_User()
     session_state = SessionState.get(name="", button_selected=False)
-    session_state = SessionState.get(name="", user_logged=False)
+
 
     User_List = np.arange(612)
     UserSelected = st.sidebar.selectbox('', User_List)
     Password = st.sidebar.text_input('', '')
     if Password == UserSelected :
-        session_state.user_logged = True
+        user_logged = True
+    else :
+        user_logged = False
 
-    if session_state.user_logged :
+    if user_logged :
         st.sidebar.write("Utilisateur : " + UserSelected + " connecté")
 
     my_bar = st.progress(0)
