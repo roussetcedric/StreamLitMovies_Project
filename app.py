@@ -293,16 +293,27 @@ def main():
         ComposerList_list = []
 
     if session_state.button_selected:
-        Model = st.sidebar.radio("Prediction Model",["Movie_Recommandation","User_Recommandantion"])
-        st.write(Model)
+        Model = st.sidebar.radio("Prediction Model",["Movie Recommandation","User Recommandantion"])
 
         df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-        if Model == "Movie_Recommandation" :
-            st.write("Movie_Recommandation")
+        if Model == "Movie Recommandation" :
             df_Display = KnnPrediction(df_Filtered,IndiceFilm)
-        elif Model == "User_Recommandantion" :
-            st.write("User_Recommandantion")
-            df_Display = df_Filtered
+        elif Model == "User Recommandantion" :
+            clust=list(df_Users['clusterId'].loc[df_Users['tconst']==IndiceFilm.iloc[0]])
+            st.write(clust)
+            liste_film_user = list(df_Users['tconst'].loc[df_Users['userId']==user])
+
+            cluster=df_Users.loc[df_Users['clusterId']==clust]
+            mask= cluster['tconst'].isin(liste_film_user)
+            cluster=cluster.loc[mask==False]
+
+            ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Rating"])
+            if ModelScore == "Popularity" :
+                liste_count=list(cluster['tconst'].value_counts().nlargest(5).index)
+                df_Display.loc[df_Movies['tconst'].isin(liste_count)]
+            elif ModelScore == "Avis" :
+                liste_mean=list(cluster.groupby('tconst')['rating'].mean().nlargest(5).index)
+                df_Display.loc[df_Movies['tconst'].isin(liste_mean)]
 
         x = st.slider('x', 1, df_Display.shape[0])
         if x <= df_Display.shape[0]:
