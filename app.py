@@ -299,18 +299,16 @@ def main():
         if Model == "Movie Recommandation" :
             df_Display = KnnPrediction(df_Filtered,IndiceFilm)
         elif Model == "User Recommandantion" :
-            st.write("clust")
             clust=df_Users[df_Users['tconst']==IndiceFilm.iloc[0]]['clusterId'].to_list()
-            st.write(clust)
-            st.write("liste_film_user")
             liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]
-            st.write(liste_film_user)
             ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Rating"])
             if ModelScore == "Popularity" :
-                liste_count=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
+                liste_count=liste_film_user['tconst'].value_counts().nlargest(5).index
+                st.write(liste_count)
                 df_Display.loc[df_Movies['tconst'].isin(liste_count)]
             elif ModelScore == "Avis" :
-                liste_mean=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
+                liste_mean=liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index
+                st.write(liste_mean)
                 df_Display.loc[df_Movies['tconst'].isin(liste_mean)]
 
         x = st.slider('x', 1, df_Display.shape[0])
