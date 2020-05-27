@@ -303,10 +303,12 @@ def main():
             liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]
             ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Avis"])
             if ModelScore == "Popularity" :
-                df_Display=liste_film_user['tconst'].value_counts().nlargest(5).index
+                df_Popularity=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
+                df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Popularity)]
                 st.write(df_Display)
             elif ModelScore == "Avis" :
-                df_Display=liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index
+                df_Avis=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
+                df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Avis)]
                 st.write(df_Display)
 
         x = st.slider('x', 1, df_Display.shape[0])
