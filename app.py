@@ -299,7 +299,7 @@ def main():
         if Model == "Movie Recommandation" :
             df_Display = KnnPrediction(df_Filtered,IndiceFilm)
         elif Model == "User Recommandantion" :
-            clust=df_Users.loc[df_Users['tconst']==IndiceFilm.iloc[0]].to_list()
+            clust=df_Users[df_Users['tconst']==IndiceFilm.iloc[0]]['clusterId'].to_list()
             st.write(clust)
             liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]['tconst'].to_list()
             st.write(liste_film_user)
