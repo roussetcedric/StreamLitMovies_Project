@@ -301,7 +301,7 @@ def main():
         elif Model == "User Recommandantion" :
             clust=list(df_Users['clusterId'].loc[df_Users['tconst']==IndiceFilm.iloc[0]])
             st.write(clust)
-            liste_film_user = list(df_Users['tconst'].loc[df_Users['clusterId'].isin(clust)])
+            liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]['tconst']
             st.write(liste_film_user)
             ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Rating"])
             if ModelScore == "Popularity" :
