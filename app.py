@@ -239,6 +239,16 @@ def main():
     df_Movies = load_data()
     df_Users = load_data_User()
     session_state = SessionState.get(name="", button_selected=False)
+    user_state = SessionState.get(name="", user_logged=False)
+
+    User_List = np.arange(612)
+    UserSelected = st.sidebar.selectbox('', User_List)
+    Password = st.sidebar.text_input('', '')
+    if Password == UserSelected :
+        user_state.user_logged = True
+
+    if user_state.user_logged :
+        st.sidebar.write("Utilisateur : " + UserSelected + " connecté")
 
     my_bar = st.progress(0)
     for percent_complete in range(100):
@@ -247,11 +257,11 @@ def main():
 
     #Select Movie
     st.title('I know what you saw last night')
-    st.write('Type your movie title here !')
+    st.write('Rentrez le titre de votre Film')
     title = st.text_input('', '')
     if title != '' :
         df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-        st.write('Choose ypur movie :')
+        st.write('Choisissez votre Film :')
         MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
         IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
