@@ -9,6 +9,7 @@ import SessionState
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import jellyfish
+import numpy as np
 
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
