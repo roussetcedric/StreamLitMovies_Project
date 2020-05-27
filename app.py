@@ -301,18 +301,14 @@ def main():
         elif Model == "User Recommandantion" :
             clust=list(df_Users['clusterId'].loc[df_Users['tconst']==IndiceFilm.iloc[0]])
             st.write(clust)
-            liste_film_user = list(df_Users['tconst'].loc[df_Users['userId']==user])
-
-            cluster=df_Users.loc[df_Users['clusterId']==clust]
-            mask= cluster['tconst'].isin(liste_film_user)
-            cluster=cluster.loc[mask==False]
-
+            liste_film_user = list(df_Users['tconst'].loc[df_Users['clusterId']==clust])
+            st.write(liste_film_user)
             ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Rating"])
             if ModelScore == "Popularity" :
-                liste_count=list(cluster['tconst'].value_counts().nlargest(5).index)
+                liste_count=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
                 df_Display.loc[df_Movies['tconst'].isin(liste_count)]
             elif ModelScore == "Avis" :
-                liste_mean=list(cluster.groupby('tconst')['rating'].mean().nlargest(5).index)
+                liste_mean=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
                 df_Display.loc[df_Movies['tconst'].isin(liste_mean)]
 
         x = st.slider('x', 1, df_Display.shape[0])
