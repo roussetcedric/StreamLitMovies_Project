@@ -301,15 +301,13 @@ def main():
         elif Model == "User Recommandantion" :
             clust=df_Users[df_Users['tconst']==IndiceFilm.iloc[0]]['clusterId'].to_list()
             liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]
-            ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Rating"])
+            ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Avis"])
             if ModelScore == "Popularity" :
                 df_Display=liste_film_user['tconst'].value_counts().nlargest(5).index
-                df_Display.columns=['tconst']
                 st.write(df_Display)
             elif ModelScore == "Avis" :
-                liste_mean=liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index
-                st.write(liste_mean)
-                df_Display.loc[df_Movies['tconst'].isin(liste_mean)]
+                df_Display=liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index
+                st.write(df_Display)
 
         x = st.slider('x', 1, df_Display.shape[0])
         if x <= df_Display.shape[0]:
