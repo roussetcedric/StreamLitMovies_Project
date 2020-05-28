@@ -263,7 +263,7 @@ def main():
             liste_film_user = df_Users[df_Users['userId'] == UserSelected]['tconst'].to_list()
             df_Analysis = df_Movies.loc[df_Movies['tconst'].isin(liste_film_user)]
 
-        st.write("* **Nombre de Films** :" + df_Analysis.shape[0])
+        st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
         figPie = px.pie(df_Analysis, values='genres', names='genres')
         fig.update_layout(
