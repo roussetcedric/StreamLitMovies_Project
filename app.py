@@ -254,7 +254,16 @@ def main():
         st.title('Interface Administrateur')
         st.write('Analysez les habitudes de vos clients')
 
-        fig = px.histogram(df_Movies, x="averageRating", animation_frame="genres")
+        Analyse = st.sidebar.radio("Analyse",["Global","Par Utilisateur"])
+
+        if Analyse == "Global" :
+            df_Analysis = df_Movies
+        elif Analyse == "Par Utilisateur" :
+            UserSelected = st.sidebar.selectbox('', df_Users["userId"].unique().to_list())
+            liste_film_user = df_Users[df_Users['userId'] == UserSelected]['tconst'].to_list()
+            df_Analysis = df_Movies.loc[df_Movies['tconst'].isin(liste_film_user)]
+
+        fig = px.histogram(df_Analysis, x="averageRating", animation_frame="genres")
         fig.update_layout(
             title="MOVIES RATING BY GENRES",
             xaxis_title="RATING",
@@ -328,11 +337,9 @@ def main():
                 if ModelScore == "Popularity" :
                     df_Popularity=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
                     df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Popularity)]
-                    st.write(df_Display)
                 elif ModelScore == "Avis" :
                     df_Avis=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
                     df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Avis)]
-                    st.write(df_Display)
 
             x = st.slider('x', 1, df_Display.shape[0])
             if x <= df_Display.shape[0]:
