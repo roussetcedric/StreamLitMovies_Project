@@ -117,10 +117,10 @@ def get_actor_pic_from_api(movie_id, actor_list):
     except:
         st.write("")
     if(picList) != [] :
-        st.write('* **Actors** : ')
+        st.write('* **Acteurs** : ')
         st.image(picList, width=100, caption=captionList)
     else :
-        st.write('* **Actors** : ' + actor_list)
+        st.write('* **Acteurs** : ' + actor_list)
 
     return len(picList)
 
@@ -141,10 +141,10 @@ def get_director_pic_from_api(movie_id, director_list):
     except:
         st.write("")
     if(picList) != [] :
-        st.write('* **Director** : ')
+        st.write('* **Directeur** : ')
         st.image(picList, width=100, caption=captionList)
     else :
-        st.write('* **Director** : ' + director_list)
+        st.write('* **Directeur** : ' + director_list)
 
     return len(picList)
 
@@ -165,10 +165,10 @@ def get_writer_pic_from_api(movie_id, writer_list):
     except:
         st.write("")
     if(picList) != [] :
-        st.write('* **Writer** : ')
+        st.write('* **Scenariste** : ')
         st.image(picList, width=100, caption=captionList)
     else :
-        st.write('* **Writer** : ' + writer_list)
+        st.write('* **Scenariste** : ' + writer_list)
 
     return len(picList)
 
@@ -189,11 +189,11 @@ def get_composer_pic_from_api(movie_id, composer_list):
     except:
         st.write("")
     if(picList) != [] :
-        st.write('* **Composer** : ')
+        st.write('* **Compositeur** : ')
         st.image(picList, width=100, caption=captionList)
     else :
         if composer_list != [] :
-            st.write('* **Composer** : ' + composer_list)
+            st.write('* **Compositeur** : ' + composer_list)
 
     return len(picList)
 
@@ -249,7 +249,7 @@ def main():
 
     session_state = SessionState.get(name="", button_selected=False)
 
-    st.image("https://assets.brand.microsites.netflix.io/assets/1ed15bca-b389-11e7-9274-06c476b5c346_cm_800w.png?v=15", width=400)
+    st.image("https://raw.githubusercontent.com/roussetcedric/StreamLitMovies_Project/master/logo.png", width=800)
     my_bar = st.progress(0)
     for percent_complete in range(100):
         time.sleep(0.01)
@@ -305,9 +305,9 @@ def main():
             ))
         st.plotly_chart(figBar)
 
-        st.write("* **Temps passé en salle obscure** : " + str(total_time.loc[UserSelected]) + " minutes")
-
         if Analyse == "Par Utilisateur" :
+
+            st.write("* **Temps passé en salle obscure** : " + str(total_time.loc[UserSelected]) + " minutes")
 
             df_Analysis['actorsName']=df_Analysis['actorsName'].apply(lambda x : ','+x+',')
             top = df_Analysis['actorsName'].str.extractall(pat=",(.*?),")[0].value_counts()
@@ -337,11 +337,11 @@ def main():
 
             df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
             DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
-            st.write('* **Title** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
+            st.write('* **Titre** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
             st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
-            st.write('* **Year** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
-            st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
-            st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
+            st.write('* **Année de sortie** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
+            st.write('* **Durée** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
+            st.write('* **Note** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
             st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
             get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
             get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
@@ -373,16 +373,16 @@ def main():
             ComposerList_list = []
 
         if session_state.button_selected:
-            Model = st.sidebar.radio("Prediction Model",["Movie Recommandation","User Recommandantion"])
+            Model = st.sidebar.radio("Type de recommandation",["Recommandation par Film","Recommandantion par Cinéphiles"])
 
             df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-            if Model == "Movie Recommandation" :
+            if Model == "Recommandation par Film" :
                 df_Display = KnnPrediction(df_Filtered,IndiceFilm)
-            elif Model == "User Recommandantion" :
+            elif Model == "Recommandantion par Cinéphiles" :
                 clust=df_Users[df_Users['tconst']==IndiceFilm.iloc[0]]['clusterId'].to_list()
                 liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]
-                ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Avis"])
-                if ModelScore == "Popularity" :
+                ModelScore = st.sidebar.radio("Prediction par ",["Popularité","Avis"])
+                if ModelScore == "Popularité" :
                     df_Popularity=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
                     df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Popularity)]
                 elif ModelScore == "Avis" :
@@ -396,14 +396,14 @@ def main():
                 st.write('* **Recommandation** : ' + str(score) + '%')
                 my_bar = st.progress(score)
                 if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
-                    st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
+                    st.write('* **Titre** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
                 st.write('* **Résumé** : ' + str(get_overview_from_api(df_Display.iloc[x-1]["tconst"])))
                 if pd.notna(df_Display.iloc[x-1]["startYear"]) :
-                    st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
+                    st.write('* **Année de sortie** : ' + str(df_Display.iloc[x-1]["startYear"]))
                 if pd.notna(df_Display.iloc[x-1]["runtimeMinutes"]) :
-                    st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
+                    st.write('* **Durée** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
                 if pd.notna(df_Display.iloc[x-1]["averageRating"]) :
-                    st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
+                    st.write('* **Note** : ' + str(df_Display.iloc[x-1]["averageRating"]))
                 get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["actorsName"])
                 get_director_pic_from_api(df_Display.iloc[x-1]["tconst"],df_Display.iloc[x-1]["directorsName"])
                 get_writer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["writersName"])
