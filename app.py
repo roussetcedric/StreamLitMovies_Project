@@ -249,10 +249,10 @@ def main():
 
     AdminitrationPage = st.sidebar.radio("Interface",["Utilisateur","Administrateur"])
 
-    if AdminitrationPage == Administrateur :
+    if AdminitrationPage == "Administrateur" :
         st.title('Interface Administrateur')
         st.write('Analysez les habitudes de vos clients')
-    elif AdminitrationPage == Utilisateur :
+    elif AdminitrationPage == "Utilisateur" :
 
         #Select Movie
         st.title('I know what you saw last night')
