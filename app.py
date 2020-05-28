@@ -263,6 +263,18 @@ def main():
             liste_film_user = df_Users[df_Users['userId'] == UserSelected]['tconst'].to_list()
             df_Analysis = df_Movies.loc[df_Movies['tconst'].isin(liste_film_user)]
 
+        st.write("* **Nombre de Films** :" + df_Analysis.shape[0])
+
+        figPie = px.pie(df_Analysis, values='genres', names='genres')
+        fig.update_layout(
+            title="MOVIES REPARTITION BY GENRES",
+            font=dict(
+                family="Courier New, monospace",
+                size=18,
+                color="#7f7f7f"
+            ))
+        st.plotly_chart(figPie)
+
         fig = px.histogram(df_Analysis, x="averageRating", animation_frame="genres")
         fig.update_layout(
             title="MOVIES RATING BY GENRES",
@@ -273,7 +285,7 @@ def main():
                 size=18,
                 color="#7f7f7f"
             ))
-        st.plotly_chart(fig)
+        
 
     elif AdminitrationPage == "Utilisateur" :
 
