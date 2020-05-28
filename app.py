@@ -247,94 +247,101 @@ def main():
         time.sleep(0.01)
         my_bar.progress(percent_complete + 1)
 
-    #Select Movie
-    st.title('I know what you saw last night')
-    st.write('Rentrez le titre de votre Film')
-    title = st.text_input('', '')
-    if title != '' :
-        df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-        st.write('Choisissez votre Film :')
-        MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
-        IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
+    AdminitrationPage = st.sidebar.radio("Interface",["Utilisateur","Administrateur"])
 
-        df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
-        DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
-        st.write('* **Title** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
-        st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
-        st.write('* **Year** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
-        st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
-        st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
-        st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
-        get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
-        get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
-        get_writer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["writersName"])
-        get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"])
-        preview_url = get_preview_from_api(IndiceFilm.iloc[0])
-        if preview_url != '':
-            st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
+    if AdminitrationPage == Administrateur :
+        st.title('Interface Administrateur')
+        st.write('Analysez les habitudes de vos clients')
+    elif AdminitrationPage == Utilisateur :
 
-        # Define Side Menu ----------------------------------------------
-        st.sidebar.title("Film Filters")
-        GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
-        ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
-        DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
-        WriterList_list = st.sidebar.multiselect("Select Writer", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
-        if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
-            ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
-        else : 
-            ComposerList_list = []
+        #Select Movie
+        st.title('I know what you saw last night')
+        st.write('Rentrez le titre de votre Film')
+        title = st.text_input('', '')
+        if title != '' :
+            df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
+            st.write('Choisissez votre Film :')
+            MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
+            IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
-        if st.button('Select this movie !') :
-            session_state.button_selected = True
-
-    else :
-        ActorList_list = []
-        DirectorList_list = []
-        GenreList_list = []
-        WriterList_list = []
-        ComposerList_list = []
-
-    if session_state.button_selected:
-        Model = st.sidebar.radio("Prediction Model",["Movie Recommandation","User Recommandantion"])
-
-        df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
-        if Model == "Movie Recommandation" :
-            df_Display = KnnPrediction(df_Filtered,IndiceFilm)
-        elif Model == "User Recommandantion" :
-            clust=df_Users[df_Users['tconst']==IndiceFilm.iloc[0]]['clusterId'].to_list()
-            liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]
-            ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Avis"])
-            if ModelScore == "Popularity" :
-                df_Popularity=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
-                df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Popularity)]
-                st.write(df_Display)
-            elif ModelScore == "Avis" :
-                df_Avis=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
-                df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Avis)]
-                st.write(df_Display)
-
-        x = st.slider('x', 1, df_Display.shape[0])
-        if x <= df_Display.shape[0]:
-            DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
-            score = random.randint(1, 100)
-            st.write('* **Recommandation** : ' + str(score) + '%')
-            my_bar = st.progress(score)
-            if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
-                st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
-            st.write('* **Résumé** : ' + str(get_overview_from_api(df_Display.iloc[x-1]["tconst"])))
-            if pd.notna(df_Display.iloc[x-1]["startYear"]) :
-                st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
-            if pd.notna(df_Display.iloc[x-1]["runtimeMinutes"]) :
-                st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
-            if pd.notna(df_Display.iloc[x-1]["averageRating"]) :
-                st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
-            get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["actorsName"])
-            get_director_pic_from_api(df_Display.iloc[x-1]["tconst"],df_Display.iloc[x-1]["directorsName"])
-            get_writer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["writersName"])
-            get_composer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["composersName"])
-            preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
+            df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
+            DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
+            st.write('* **Title** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
+            st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
+            st.write('* **Year** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
+            st.write('* **Duration** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
+            st.write('* **Rating** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
+            st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
+            get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
+            get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
+            get_writer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["writersName"])
+            get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"])
+            preview_url = get_preview_from_api(IndiceFilm.iloc[0])
             if preview_url != '':
                 st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
+
+            # Define Side Menu ----------------------------------------------
+            st.sidebar.title("Film Filters")
+            GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
+            ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
+            DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
+            WriterList_list = st.sidebar.multiselect("Select Writer", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
+            if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
+                ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
+            else : 
+                ComposerList_list = []
+
+            if st.button('Select this movie !') :
+                session_state.button_selected = True
+
+        else :
+            ActorList_list = []
+            DirectorList_list = []
+            GenreList_list = []
+            WriterList_list = []
+            ComposerList_list = []
+
+        if session_state.button_selected:
+            Model = st.sidebar.radio("Prediction Model",["Movie Recommandation","User Recommandantion"])
+
+            df_Filtered = DisplayDataFrame(df_Movies,GenreList_list, DirectorList_list, ActorList_list, WriterList_list, ComposerList_list)
+            if Model == "Movie Recommandation" :
+                df_Display = KnnPrediction(df_Filtered,IndiceFilm)
+            elif Model == "User Recommandantion" :
+                clust=df_Users[df_Users['tconst']==IndiceFilm.iloc[0]]['clusterId'].to_list()
+                liste_film_user = df_Users[df_Users['clusterId'].isin(clust)]
+                ModelScore = st.sidebar.radio("Prediction by ",["Popularity","Avis"])
+                if ModelScore == "Popularity" :
+                    df_Popularity=list(liste_film_user['tconst'].value_counts().nlargest(5).index)
+                    df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Popularity)]
+                    st.write(df_Display)
+                elif ModelScore == "Avis" :
+                    df_Avis=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
+                    df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Avis)]
+                    st.write(df_Display)
+
+            x = st.slider('x', 1, df_Display.shape[0])
+            if x <= df_Display.shape[0]:
+                DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
+                score = random.randint(1, 100)
+                st.write('* **Recommandation** : ' + str(score) + '%')
+                my_bar = st.progress(score)
+                if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
+                    st.write('* **Title** : ' + str(df_Display.iloc[x-1]["originalTitle"]))
+                st.write('* **Résumé** : ' + str(get_overview_from_api(df_Display.iloc[x-1]["tconst"])))
+                if pd.notna(df_Display.iloc[x-1]["startYear"]) :
+                    st.write('* **Year** : ' + str(df_Display.iloc[x-1]["startYear"]))
+                if pd.notna(df_Display.iloc[x-1]["runtimeMinutes"]) :
+                    st.write('* **Duration** : ' + str(df_Display.iloc[x-1]["runtimeMinutes"]) + ' min')
+                if pd.notna(df_Display.iloc[x-1]["averageRating"]) :
+                    st.write('* **Rating** : ' + str(df_Display.iloc[x-1]["averageRating"]))
+                get_actor_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["actorsName"])
+                get_director_pic_from_api(df_Display.iloc[x-1]["tconst"],df_Display.iloc[x-1]["directorsName"])
+                get_writer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["writersName"])
+                get_composer_pic_from_api(df_Display.iloc[x-1]["tconst"], df_Display.iloc[x-1]["composersName"])
+                preview_url = get_preview_from_api(df_Display.iloc[x-1]["tconst"])
+                if preview_url != '':
+                    st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
