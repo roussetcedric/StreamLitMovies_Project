@@ -292,9 +292,9 @@ def main():
             captionList = []
             st.write("* **5 Derniers films vus** :")
             for loop in range(1,5) :
-                st.write(df_Analysis[loop]["tconst"])
+                st.write(df_Analysis[loop])
                 #picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"])))
-                st.write(df_Analysis[loop]["originalTitle"])
+                st.write(df_Analysis[loop])
                 #captionList.append(str(df_Analysis[loop]["originalTitle"]))
             #st.image(picList, width=100, caption=captionList)
 
