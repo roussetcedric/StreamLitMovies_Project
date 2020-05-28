@@ -266,7 +266,7 @@ def main():
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
         figPie = px.pie(df_Analysis, values='genres', names='genres')
-        fig.update_layout(
+        figPie.update_layout(
             title="MOVIES REPARTITION BY GENRES",
             font=dict(
                 family="Courier New, monospace",
