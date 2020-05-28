@@ -312,7 +312,7 @@ def main():
             df_Analysis['actorsName']=df_Analysis['actorsName'].apply(lambda x : ','+x+',')
             top = df_Analysis['actorsName'].str.extractall(pat=",(.*?),")[0].value_counts()
 
-            st.write("* **Acteur préféré** : " + str(top.index[0]) + " avec " + str(top[0]) + " vus")
+            st.write("* **Acteur préféré** : " + str(top.index[0]) + " dans " + str(top[0]) + " films vus")
 
             picList = []
             captionList = []
