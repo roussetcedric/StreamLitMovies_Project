@@ -240,6 +240,9 @@ def main():
 
     df_Movies = load_data()
     df_Users = load_data_User()
+    total=pd.merge(users,df_movies[['tconst','runtimeMinutes']], on='tconst',how='inner')
+    total_time=total.groupby('userId')['runtimeMinutes'].sum()
+
     session_state = SessionState.get(name="", button_selected=False)
 
     st.image("https://assets.brand.microsites.netflix.io/assets/1ed15bca-b389-11e7-9274-06c476b5c346_cm_800w.png?v=15", width=400)
@@ -282,8 +285,10 @@ def main():
             ))
         st.plotly_chart(figPie)
 
+        st.write("* **Temps passé en salle obscure** :" + str(total_time.loc[UserSelected]) + " minutes")
+
         if Analyse == "Par Utilisateur" :
-            piclist = []
+            picList = []
             captionList = []
             st.write("* **5 Derniers films vus** :")
             for loop in range(1,5) :
