@@ -268,15 +268,15 @@ def main():
                     df_Analysis['averageRating']],
                     axis=1)
 
-        df_GenrePie = pd.melt(df_Genres, id_vars=["Action","Adult","Adventure","Animation","Biography","Comedy","Crime","Documentary",
-            "Drama","Family","Fantasy","Film-Noir","Game-Show","History","Horror","Music","Musical","Mystery","News","Reality-TV",
-            "Romance","Sci-Fi","Sport","Talk-Show","Thriller","War","Western"])
-
-        st.write(df_GenrePie)
+        df_GenrePie=pd.melt(df_Genres,value_vars=['isAdult', 'Action', 'Adult', 'Adventure', 'Animation', 'Biography',
+            'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy',
+            'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical',
+            'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Sport',
+            'Talk-Show', 'Thriller', 'War', 'Western'],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
 
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
-        figPie = px.pie(df_Analysis, values='genres', names='genres')
+        figPie = px.pie(df_GenrePie, values='Nombre', names=df_GenrePie.index)
         figPie.update_layout(
             title="MOVIES REPARTITION BY GENRES",
             font=dict(
@@ -285,18 +285,6 @@ def main():
                 color="#7f7f7f"
             ))
         st.plotly_chart(figPie)
-
-        fig = px.histogram(df_Analysis, x="averageRating", animation_frame="genres")
-        fig.update_layout(
-            title="MOVIES RATING BY GENRES",
-            xaxis_title="RATING",
-            yaxis_title="COUNT",
-            font=dict(
-                family="Courier New, monospace",
-                size=18,
-                color="#7f7f7f"
-            ))
-        
 
     elif AdminitrationPage == "Utilisateur" :
 
