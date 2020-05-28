@@ -240,8 +240,12 @@ def main():
 
     df_Movies = load_data()
     df_Users = load_data_User()
+
     total=pd.merge(df_Users,df_Movies[['tconst','runtimeMinutes']], on='tconst',how='inner')
     total_time=total.groupby('userId')['runtimeMinutes'].sum()
+
+    total_actors=pd.merge(df_Users,df_Movies[['tconst','actorsName']], on='tconst',how='inner')
+    total_actors['actorsName']=total_actors['actorsName'].apply(lambda x : ','+x+',')
 
     session_state = SessionState.get(name="", button_selected=False)
 
@@ -304,14 +308,20 @@ def main():
         st.write("* **Temps passé en salle obscure** : " + str(total_time.loc[UserSelected]) + " minutes")
 
         if Analyse == "Par Utilisateur" :
+
+            df_Analysis['actorsName']=df_Analysis['actorsName'].apply(lambda x : ','+x+',')
+            top = total['actorsName'].str.extractall(pat=",(.*?),")[0].value_counts()
+
+            st.write("* **Acteur préféré** : " + str(top.index[0]) + " avec " + str(top[0]) + " vus")
+
             picList = []
             captionList = []
             st.write("* **5 Derniers films vus** :")
             df_Analysis = df_Analysis.reset_index(drop=True)
             for loop in range(1,6) :
-                picList.append(get_poster_from_api(df_Analysis.iloc[loop]["tconst"]))
-                captionList.append(df_Analysis.iloc[loop]["originalTitle"])
-            st.image(picList, width=150, caption=captionList)
+                picList.append(get_poster_from_api(df_Analysis.iloc[df_Analysis.shape[0]-loop]["tconst"]))
+                captionList.append(df_Analysis.iloc[df_Analysis.shape[0]-loop]["originalTitle"])
+            st.image(picList, width=120, caption=captionList)
 
     elif AdminitrationPage == "Utilisateur" :
 
