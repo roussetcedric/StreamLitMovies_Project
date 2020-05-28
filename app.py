@@ -259,7 +259,7 @@ def main():
         if Analyse == "Global" :
             df_Analysis = df_Movies
         elif Analyse == "Par Utilisateur" :
-            UserSelected = st.sidebar.selectbox('', df_Users["userId"].unique().to_list())
+            UserSelected = st.sidebar.selectbox('', df_Users["userId"].unique())
             liste_film_user = df_Users[df_Users['userId'] == UserSelected]['tconst'].to_list()
             df_Analysis = df_Movies.loc[df_Movies['tconst'].isin(liste_film_user)]
 
