@@ -268,11 +268,7 @@ def main():
                     df_Analysis['averageRating']],
                     axis=1)
 
-        df_GenrePie=pd.melt(df_Genres,value_vars=['isAdult', 'Action', 'Adult', 'Adventure', 'Animation', 'Biography',
-            'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy',
-            'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical',
-            'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Sport',
-            'Talk-Show', 'Thriller', 'War', 'Western'],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
+        df_GenrePie=pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
 
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
