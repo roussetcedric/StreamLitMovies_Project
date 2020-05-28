@@ -241,18 +241,7 @@ def main():
     df_Users = load_data_User()
     session_state = SessionState.get(name="", button_selected=False)
 
-
-    User_List = np.arange(612)
-    UserSelected = st.sidebar.selectbox('', User_List)
-    Password = st.sidebar.text_input('', '')
-    if Password == UserSelected :
-        user_logged = True
-    else :
-        user_logged = False
-
-    if user_logged :
-        st.sidebar.write("Utilisateur : " + UserSelected + " connecté")
-
+    st.image("https://assets.brand.microsites.netflix.io/assets/1ed15bca-b389-11e7-9274-06c476b5c346_cm_800w.png?v=15", width=400)
     my_bar = st.progress(0)
     for percent_complete in range(100):
         time.sleep(0.01)
