@@ -272,9 +272,10 @@ def main():
                     axis=1)
         for col in df_Genres.columns :
             df_Genres[col] = df_Genres[col]*df_Genres["averageRating"]
-        st.write(df_Genres)
 
         df_GenrePie = pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
+        df_Genres = df_Genres.replace(0, np.NaN)
+        df_GenreBar = pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').mean()
 
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
@@ -288,6 +289,16 @@ def main():
             ))
         st.plotly_chart(figPie)
 
+        figBar = px.bar(df_GenreBar, x=df_GenreBar.index, y='Nombre')
+        figBar.update_layout(
+            title="NOTE MOYENNE PAR PAR GENRES",
+            font=dict(
+                family="Courier New, monospace",
+                size=18,
+                color="#7f7f7f"
+            ))
+        st.plotly_chart(figBar)
+
         st.write("* **Temps passé en salle obscure** : " + str(total_time.loc[UserSelected]) + " minutes")
 
         if Analyse == "Par Utilisateur" :
@@ -297,8 +308,8 @@ def main():
             df_Analysis = df_Analysis.reset_index(drop=True)
             st.write(df_Analysis)
             for loop in range(1,6) :
-                st.write(df_Analysis[-loop]["tconst"])
-                st.write(df_Analysis[-loop]["tconst"].iloc[0])
+                st.write(df_Analysis[loop]["tconst"])
+                st.write(df_Analysis[loop]["tconst"].iloc[0])
                 #picList.append(get_poster_from_api(df_Analysis[loop]["tconst"]))
                 #captionList.append(df_Analysis[loop]["originalTitle"])
             #st.image(picList, width=100, caption=captionList)
