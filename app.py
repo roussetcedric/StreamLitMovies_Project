@@ -275,6 +275,8 @@ def main():
         df_GenrePie = pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
         df_GenreBar = pd.melt(df_GenresMultiply,value_vars=df_GenresMultiply.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').mean()
 
+        st.write(df_GenreBar)
+
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
         figPie = px.pie(df_GenrePie, values='Nombre', names=df_GenrePie.index)
@@ -294,9 +296,11 @@ def main():
             captionList = []
             st.write("* **5 Derniers films vus** :")
             df_Analysis.reset_index(drop=True)
+            st.write(df_Analysis)
             for loop in range(1,5) :
-                st.write(df_Analysis[loop]["tconst"])
-                st.write(df_Analysis[loop]["tconst"].iloc[0])
+                st.write(loop)
+                #st.write(df_Analysis[loop]["tconst"])
+                #st.write(df_Analysis[loop]["tconst"].iloc[0])
                 #picList.append(get_poster_from_api(df_Analysis[loop]["tconst"]))
                 #captionList.append(df_Analysis[loop]["originalTitle"])
             #st.image(picList, width=100, caption=captionList)
