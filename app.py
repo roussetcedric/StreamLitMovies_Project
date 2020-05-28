@@ -208,7 +208,7 @@ def GetNameAndYear(dataFrameParam, movie):
 
     return df_temp
 
-@st.cache(suppress_st_warning=True)
+#@st.cache(suppress_st_warning=True)
 def KnnPrediction(df_Movies,df_movie_id):
 
     movie_id = df_movie_id.iloc[0]
