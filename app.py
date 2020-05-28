@@ -291,13 +291,11 @@ def main():
             picList = []
             captionList = []
             st.write("* **5 Derniers films vus** :")
-            st.write(df_Analysis)
+            df_Analysis.reset_index(drop=True)
             for loop in range(1,5) :
-                st.write(df_Analysis.loc[loop])
-                #picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"])))
-                #st.write(df_Analysis.loc[loop]["originalTitle"])
-                #captionList.append(str(df_Analysis[loop]["originalTitle"]))
-            #st.image(picList, width=100, caption=captionList)
+                picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"])))
+                captionList.append(str(df_Analysis[loop]["originalTitle"]))
+            st.image(picList, width=100, caption=captionList)
 
     elif AdminitrationPage == "Utilisateur" :
 
