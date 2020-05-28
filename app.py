@@ -271,13 +271,10 @@ def main():
                     df_Analysis['averageRating']],
                     axis=1)
         for col in df_Genres.columns :
-            df_GenresMultiply = df_Genres[col]*df_Genres["averageRating"]
-        st.write(df_GenresMultiply)
+            df_Genres[col] = df_Genres[col]*df_Genres["averageRating"]
+        st.write(df_Genres)
 
         df_GenrePie = pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
-        df_GenreBar = pd.melt(df_GenresMultiply,value_vars=df_GenresMultiply.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').mean()
-
-        st.write(df_GenreBar)
 
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
