@@ -257,7 +257,7 @@ def main():
         st.title('Interface Administrateur')
         st.write('Analysez les habitudes de vos clients')
 
-        Analyse = st.sidebar.radio("Analyse",["Global","Par Utilisateur"])
+        Analyse = st.sidebar.radio("Analyse",["Par Utilisateur","Global"])
 
         if Analyse == "Global" :
             df_Analysis = df_Movies
@@ -292,7 +292,7 @@ def main():
             captionList = []
             st.write("* **5 Derniers films vus** :")
             for loop in range(1,5) :
-                picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"].iloc[0])))
+                picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"])))
                 captionList.append(str(df_Analysis[loop]["originalTitle"]))
             st.image(picList, width=100, caption=captionList)
 
