@@ -310,7 +310,7 @@ def main():
         if Analyse == "Par Utilisateur" :
 
             df_Analysis['actorsName']=df_Analysis['actorsName'].apply(lambda x : ','+x+',')
-            top = total['actorsName'].str.extractall(pat=",(.*?),")[0].value_counts()
+            top = df_Analysis['actorsName'].str.extractall(pat=",(.*?),")[0].value_counts()
 
             st.write("* **Acteur préféré** : " + str(top.index[0]) + " avec " + str(top[0]) + " vus")
 
