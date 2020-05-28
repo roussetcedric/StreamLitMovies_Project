@@ -264,7 +264,7 @@ def main():
                 size=18,
                 color="#7f7f7f"
             ))
-        st.write(fig)
+        st.plotly_chart(fig)
 
     elif AdminitrationPage == "Utilisateur" :
 
