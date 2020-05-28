@@ -264,7 +264,7 @@ def main():
                 size=18,
                 color="#7f7f7f"
             ))
-        fig.show()
+        st.write(fig)
 
     elif AdminitrationPage == "Utilisateur" :
 
