@@ -240,7 +240,7 @@ def main():
 
     df_Movies = load_data()
     df_Users = load_data_User()
-    total=pd.merge(users,df_movies[['tconst','runtimeMinutes']], on='tconst',how='inner')
+    total=pd.merge(df_Users,df_Movies[['tconst','runtimeMinutes']], on='tconst',how='inner')
     total_time=total.groupby('userId')['runtimeMinutes'].sum()
 
     session_state = SessionState.get(name="", button_selected=False)
