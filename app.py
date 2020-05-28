@@ -287,9 +287,8 @@ def main():
             captionList = []
             st.write("* **5 Derniers films vus** :")
             for loop in range(1,5) :
-                get_poster_from_api(movie_id)
-            picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"].iloc[0])))
-            captionList.append(df_Analysis[loop]["originalTitle"])
+                picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"].iloc[0])))
+                captionList.append(str(df_Analysis[loop]["originalTitle"]))
             st.image(picList, width=100, caption=captionList)
 
     elif AdminitrationPage == "Utilisateur" :
