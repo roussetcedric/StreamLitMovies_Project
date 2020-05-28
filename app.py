@@ -274,13 +274,23 @@ def main():
 
         figPie = px.pie(df_GenrePie, values='Nombre', names=df_GenrePie.index)
         figPie.update_layout(
-            title="MOVIES REPARTITION BY GENRES",
+            title="REPARTITION DES FILMS PAR GENRES",
             font=dict(
                 family="Courier New, monospace",
                 size=18,
                 color="#7f7f7f"
             ))
         st.plotly_chart(figPie)
+
+        if Analyse == "Par Utilisateur" :
+            piclist = []
+            captionList = []
+            st.write("* **5 Derniers films vus** :")
+            for loop in range(1,5) :
+                get_poster_from_api(movie_id):
+            picList.append(str(get_poster_from_api(df_Analysis[loop]["tconst"].iloc[0])))
+            captionList.append(df_Analysis[loop]["originalTitle"])
+            st.image(picList, width=100, caption=captionList)
 
     elif AdminitrationPage == "Utilisateur" :
 
