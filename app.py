@@ -266,12 +266,14 @@ def main():
             liste_film_user = df_Users[df_Users['userId'] == UserSelected]['tconst'].to_list()
             df_Analysis = df_Movies.loc[df_Movies['tconst'].isin(liste_film_user)]
 
-        df_Genres=pd.concat([df_Analysis[['isAdult']],
+        df_Genres = pd.concat([df_Analysis[['isAdult']],
                     df_Analysis['genres'].str.get_dummies(sep=','),
                     df_Analysis['averageRating']],
                     axis=1)
+        df_GenresMultiply = df_Genres*df_Genres["averageRating"]
 
-        df_GenrePie=pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
+        df_GenrePie = pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
+        df_GenreBar = pd.melt(df_GenresMultiply,value_vars=df_GenresMultiply.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').mean()
 
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
@@ -293,9 +295,11 @@ def main():
             st.write("* **5 Derniers films vus** :")
             df_Analysis.reset_index(drop=True)
             for loop in range(1,5) :
-                picList.append(get_poster_from_api(df_Analysis[loop]["tconst"]))
-                captionList.append(df_Analysis[loop]["originalTitle"])
-            st.image(picList, width=100, caption=captionList)
+                st.write(df_Analysis[loop]["tconst"])
+                st.write(df_Analysis[loop]["tconst"].iloc[0])
+                #picList.append(get_poster_from_api(df_Analysis[loop]["tconst"]))
+                #captionList.append(df_Analysis[loop]["originalTitle"])
+            #st.image(picList, width=100, caption=captionList)
 
     elif AdminitrationPage == "Utilisateur" :
 
