@@ -10,6 +10,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import random
 import jellyfish
 import numpy as np
+import plotly.express as px
 
 # Load Data -----------------------------------------------------
 @st.cache(suppress_st_warning=True)
@@ -252,6 +253,19 @@ def main():
     if AdminitrationPage == "Administrateur" :
         st.title('Interface Administrateur')
         st.write('Analysez les habitudes de vos clients')
+
+        fig = px.histogram(df_Movies, x="averageRating", animation_frame="genres")
+        fig.update_layout(
+            title="MOVIES RATING BY GENRES",
+            xaxis_title="RATING",
+            yaxis_title="COUNT",
+            font=dict(
+                family="Courier New, monospace",
+                size=18,
+                color="#7f7f7f"
+            ))
+        fig.show()
+
     elif AdminitrationPage == "Utilisateur" :
 
         #Select Movie
