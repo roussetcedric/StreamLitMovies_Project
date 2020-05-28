@@ -271,6 +271,7 @@ def main():
                     df_Analysis['averageRating']],
                     axis=1)
         df_GenresMultiply = df_Genres*df_Genres["averageRating"]
+        st.write(df_GenresMultiply)
 
         df_GenrePie = pd.melt(df_Genres,value_vars=df_Genres.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').sum()
         df_GenreBar = pd.melt(df_GenresMultiply,value_vars=df_GenresMultiply.columns[1:-1],var_name='Genre',value_name='Nombre').groupby('Genre').mean()
@@ -295,7 +296,7 @@ def main():
             picList = []
             captionList = []
             st.write("* **5 Derniers films vus** :")
-            df_Analysis.reset_index(drop=True)
+            df_Analysis = df_Analysis.reset_index(drop=True)
             st.write(df_Analysis)
             for loop in range(1,5) :
                 st.write(loop)
