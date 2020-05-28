@@ -291,7 +291,9 @@ def main():
 
         figBar = px.bar(df_GenreBar, x=df_GenreBar.index, y='Nombre')
         figBar.update_layout(
-            title="NOTE MOYENNE PAR PAR GENRES",
+            title="NOTE MOYENNE PAR GENRES",
+            xaxis_title="GENRE",
+            yaxis_title="NOTE",
             font=dict(
                 family="Courier New, monospace",
                 size=18,
@@ -306,12 +308,10 @@ def main():
             captionList = []
             st.write("* **5 Derniers films vus** :")
             df_Analysis = df_Analysis.reset_index(drop=True)
-            st.write(df_Analysis)
             for loop in range(1,6) :
-                st.write(df_Analysis.iloc[loop]["tconst"])
                 picList.append(get_poster_from_api(df_Analysis.iloc[loop]["tconst"]))
                 captionList.append(df_Analysis.iloc[loop]["originalTitle"])
-            st.image(picList, width=100, caption=captionList)
+            st.image(picList, width=150, caption=captionList)
 
     elif AdminitrationPage == "Utilisateur" :
 
