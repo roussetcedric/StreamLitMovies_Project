@@ -263,6 +263,17 @@ def main():
             liste_film_user = df_Users[df_Users['userId'] == UserSelected]['tconst'].to_list()
             df_Analysis = df_Movies.loc[df_Movies['tconst'].isin(liste_film_user)]
 
+        df_Genres=pd.concat([df_Analysis[['isAdult']],
+                    df_Analysis['genres'].str.get_dummies(sep=','),
+                    df_Analysis['averageRating']],
+                    axis=1)
+
+        df_GenrePie = pd.melt(df_Genres, id_vars=["Action","Adult","Adventure","Animation","Biography","Comedy","Crime","Documentary",
+            "Drama","Family","Fantasy","Film-Noir","Game-Show","History","Horror","Music","Musical","Mystery","News","Reality-TV",
+            "Romance","Sci-Fi","Sport","Talk-Show","Thriller","War","Western"])
+
+        st.write(df_GenrePie)
+
         st.write("* **Nombre de Films** :" + str(df_Analysis.shape[0]))
 
         figPie = px.pie(df_Analysis, values='genres', names='genres')
