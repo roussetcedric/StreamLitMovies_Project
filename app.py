@@ -342,9 +342,8 @@ def main():
                 DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
                 Background = str("\"\"\" <style> body\{background: url('" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + "') center center no-repeat; background-size: cover; background-attachment: fixed; color: white; height: 100%; width: 100%;\} </style>\"\"\" ")
-
-                # Define CSS
-                st.markdown(Background, unsafe_allow_html=True)
+                st.write(Background)
+                #st.markdown(Background, unsafe_allow_html=True)
 
                 st.write('* **Titre** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
                 st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
