@@ -336,38 +336,37 @@ def main():
             st.write(MovieSelectedTitle)
             if MovieSelectedTitle == "nan" :
                 st.write("Il n'y a pas de Film correspondant à votre recherche")
-                IndiceFilm = 0
             else :
                 IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
-            df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
-            DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
-            st.write('* **Titre** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
-            st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
-            st.write('* **Année de sortie** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
-            st.write('* **Durée** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
-            st.write('* **Note** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
-            st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
-            get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
-            get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
-            get_writer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["writersName"])
-            get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"])
-            preview_url = get_preview_from_api(IndiceFilm.iloc[0])
-            if preview_url != '':
-                st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
+                df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
+                DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
+                st.write('* **Titre** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
+                st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
+                st.write('* **Année de sortie** : ' + str(df_MovieSelectedOne.iloc[0]["startYear"]))
+                st.write('* **Durée** : ' + str(df_MovieSelectedOne.iloc[0]["runtimeMinutes"]) + ' min')
+                st.write('* **Note** : ' + str(df_MovieSelectedOne.iloc[0]["averageRating"]))
+                st.write('* **Genre** : ' + str(df_MovieSelectedOne.iloc[0]["genres"]))
+                get_actor_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["actorsName"])
+                get_director_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"],df_MovieSelectedOne.iloc[0]["directorsName"])
+                get_writer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["writersName"])
+                get_composer_pic_from_api(df_MovieSelectedOne.iloc[0]["tconst"], df_MovieSelectedOne.iloc[0]["composersName"])
+                preview_url = get_preview_from_api(IndiceFilm.iloc[0])
+                if preview_url != '':
+                    st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
 
-            # Define Side Menu ----------------------------------------------
-            GenreList_list = st.sidebar.multiselect("Filtre par Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
-            ActorList_list = st.sidebar.multiselect("Filtre par Acteur", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
-            DirectorList_list = st.sidebar.multiselect("Filtre apr Directeur", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
-            WriterList_list = st.sidebar.multiselect("Filtre par Scénariste", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
-            if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
-                ComposerList_list = st.sidebar.multiselect("Filtre par Compositeur", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
-            else : 
-                ComposerList_list = []
+                # Define Side Menu ----------------------------------------------
+                GenreList_list = st.sidebar.multiselect("Filtre par Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
+                ActorList_list = st.sidebar.multiselect("Filtre par Acteur", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
+                DirectorList_list = st.sidebar.multiselect("Filtre apr Directeur", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
+                WriterList_list = st.sidebar.multiselect("Filtre par Scénariste", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
+                if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
+                    ComposerList_list = st.sidebar.multiselect("Filtre par Compositeur", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
+                else : 
+                    ComposerList_list = []
 
-            if st.button('Select this movie !') :
-                session_state.button_selected = True
+                if st.button('Recommandez moi des Films !') :
+                    session_state.button_selected = True
 
         else :
             ActorList_list = []
