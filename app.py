@@ -331,6 +331,7 @@ def main():
         title = st.text_input('', '')
         if title != '' :
             df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
+            st.write(df_SelectedNameAndYear)
             st.write('Choisissez votre Film :')
             MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
             st.write(MovieSelectedTitle)
