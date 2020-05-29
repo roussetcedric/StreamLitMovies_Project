@@ -342,7 +342,7 @@ def main():
                 DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
                 if get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) != "" :
-                    st.wrte
+                    st.write(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
                     BackGround_string = "\"\"\"" \
                         "<style>" \
