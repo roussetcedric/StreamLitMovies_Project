@@ -396,7 +396,7 @@ def main():
             x = st.slider('x', 1, df_Display.shape[0])
             if x <= df_Display.shape[0]:
                 DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
-                score = random.randint(1, 100)
+                score = random.randint(67, 99)
                 st.write('* **Recommandation** : ' + str(score) + '%')
                 my_bar = st.progress(score)
                 if pd.notna(df_Display.iloc[x-1]["originalTitle"]) :
