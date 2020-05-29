@@ -342,10 +342,25 @@ def main():
                 DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
                 if get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) != "" :
+
+                    BackGround_string = "\"\"\"" \
+                        "<style>" \
+                        "body { "\
+                        "background: url('" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + "') center center no-repeat;" \
+                        "background-size: cover;" \
+                        "background-attachment: fixed;" \
+                        "color: white;" \
+                        "height: 100%;" \
+                        "width: 100%;" \
+                        "}" \
+                        "</style>" \
+                        "\"\"\""
+                    #st.markdown(BackGround_string)
+                    url_poster = get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
                     st.markdown(f"""
                     <style>
                     body \{
-                      background: url('{get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"])}) center center no-repeat;
+                      background: url('{url_poster}') center center no-repeat;
                       background-size: cover;
                       background-attachment: fixed;
                       color: white;
