@@ -341,7 +341,7 @@ def main():
                 df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
                 DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
-                Background = str("\"\"\" <style> body\{background: url('" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + "') center center no-repeat; background-size: cover; background-attachment: fixed; color: white; height: 100%; width: 100%;\} </style>\"\"\" ")
+                Background = str("\"\"\" <style> body\{background: url(" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + ") center center no-repeat; background-size: cover; background-attachment: fixed; color: white; height: 100%; width: 100%;\} </style>\"\"\" ")
                 st.write(Background)
                 #st.markdown(Background, unsafe_allow_html=True)
 
