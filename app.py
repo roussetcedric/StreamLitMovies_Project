@@ -331,11 +331,12 @@ def main():
         title = st.text_input('', '')
         if title != '' :
             df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-            if df_SelectedNameAndYear.shape[0] == 0 :
-                st.write("Il n'y a aps de Film correspondant à votre recherche")
+            st.write('Choisissez votre Film :')
+            MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
+            if MovieSelectedTitle = "nan" :
+                st.write("Il n'y a pas de Film correspondant à votre recherche")
+                IndiceFilm = 0
             else :
-                st.write('Choisissez votre Film :')
-                MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
                 IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
             df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
@@ -392,9 +393,7 @@ def main():
                     df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Avis)]
 
             if df_Display.shape[0] > 5 :
-                st.write(df_Display.shape[0])
                 df_Display = df_Display[0:5]
-                st.write(df_Display.shape[0])
             x = st.slider('x', 1, df_Display.shape[0])
             if x <= df_Display.shape[0]:
                 DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
