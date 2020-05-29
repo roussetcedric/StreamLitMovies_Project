@@ -331,13 +331,11 @@ def main():
         title = st.text_input('', '')
         if title != '' :
             df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-            st.write(df_SelectedNameAndYear)
-            st.write('Choisissez votre Film :')
-            MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
-            st.write(MovieSelectedTitle)
-            if MovieSelectedTitle == "nan" :
+            if df_SelectedNameAndYear.shape[0] == df_Movies.shape[0]:
                 st.write("Il n'y a pas de Film correspondant à votre recherche")
             else :
+                st.write('Choisissez votre Film :')
+                MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
                 IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
                 df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
