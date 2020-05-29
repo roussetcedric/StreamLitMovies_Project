@@ -346,7 +346,7 @@ def main():
                     BackGround_string = "\"\"\"" \
                         "<style>" \
                         "body { "\
-                        "background: url('" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + "') center center no-repeat;" \
+                        "background: url(" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + ") center center no-repeat;" \
                         "background-size: cover;" \
                         "background-attachment: fixed;" \
                         "color: white;" \
