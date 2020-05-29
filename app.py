@@ -326,14 +326,17 @@ def main():
     elif AdminitrationPage == "Utilisateur" :
 
         #Select Movie
-        st.title('I know what you saw last night')
+        st.title('Predictus Filmus !!')
         st.write('Rentrez le titre de votre Film')
         title = st.text_input('', '')
         if title != '' :
             df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
-            st.write('Choisissez votre Film :')
-            MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
-            IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
+            if df_SelectedNameAndYear.shape[0] == 0 :
+                st.write("Il n'y a aps de Film correspondant à votre recherche")
+            else :
+                st.write('Choisissez votre Film :')
+                MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
+                IndiceFilm = df_SelectedNameAndYear[df_SelectedNameAndYear["titleYear"] == MovieSelectedTitle]["tconst"]
 
             df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
             DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
