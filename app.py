@@ -345,11 +345,15 @@ def main():
                     BackGround_string = "<style>" \
                         "body { "\
                         "background: url('" + str(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"])) + "') center center no-repeat;" \
-                        "background-size: cover;" \
+                        "background-size: 70%;" \
                         "background-attachment: fixed;" \
-                        "color: white;" \
+                        "background-color: black;" \
+                        "color: black;" \
                         "height: 20%;" \
                         "width: 20%;" \
+                        "}" \
+                        ".block-container{" \
+                        "background: hsla(0,0%,100%,.8);" \
                         "}" \
                         "</style>"
                     st.markdown(BackGround_string, unsafe_allow_html=True)
