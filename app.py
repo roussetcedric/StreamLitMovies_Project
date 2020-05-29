@@ -355,20 +355,7 @@ def main():
                         "}" \
                         "</style>" \
                         "\"\"\""
-                    #st.markdown(BackGround_string)
-                    url_poster = get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"])
-                    st.markdown(f"""
-                    <style>
-                    body \{
-                      background: url('{url_poster}') center center no-repeat;
-                      background-size: cover;
-                      background-attachment: fixed;
-                      color: white;
-                      height: 100%;
-                      width: 100%;
-                    \}
-                    </style>
-                        """, unsafe_allow_html=True)
+                    st.markdown(BackGround_string)
                 else :
                     st.markdown("""
                     <style>
