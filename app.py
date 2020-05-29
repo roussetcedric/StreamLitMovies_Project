@@ -342,21 +342,16 @@ def main():
                 DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
                 if get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) != "" :
-                    st.write(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
-
-                    BackGround_string = "\"\"\"" \
-                        "<style>" \
+                    BackGround_string = "<style>" \
                         "body { "\
                         "background: url('" + str(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"])) + "') center center no-repeat;" \
                         "background-size: cover;" \
                         "background-attachment: fixed;" \
                         "color: white;" \
-                        "height: 100%;" \
-                        "width: 100%;" \
+                        "height: 20%;" \
+                        "width: 20%;" \
                         "}" \
-                        "</style>" \
-                        "\"\"\""
-                    st.write(BackGround_string)
+                        "</style>"
                     st.markdown(BackGround_string, unsafe_allow_html=True)
 
                 else :
