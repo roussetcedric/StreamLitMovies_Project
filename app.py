@@ -333,6 +333,7 @@ def main():
             df_SelectedNameAndYear = GetNameAndYear(df_Movies, title)
             st.write('Choisissez votre Film :')
             MovieSelectedTitle = st.selectbox('', df_SelectedNameAndYear["titleYear"].to_list())
+            st.write(MovieSelectedTitle)
             if MovieSelectedTitle == "nan" :
                 st.write("Il n'y a pas de Film correspondant à votre recherche")
                 IndiceFilm = 0
