@@ -341,19 +341,10 @@ def main():
                 df_MovieSelectedOne = df_Movies[df_Movies["tconst"] == IndiceFilm.iloc[0]]
                 DisplayPoster(get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]))
 
+                Background = str("\"\"\" <style> body\{background: url('" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + "') center center no-repeat; background-size: cover; background-attachment: fixed; color: white; height: 100%; width: 100%;\} </style>\"\"\" ")
+
                 # Define CSS
-                st.markdown("""
-                <style>
-                body {
-                  background: url('https://m.media-amazon.com/images/M/MV5BOTAxMjAyMDEtYTE1OC00OTc2LWFlNDYtZmJmM2IxODBhOGY0XkEyXkFqcGdeQXVyMTA3MzQ4MTc0._V1_.jpg') center center no-repeat;
-                  background-size: cover;
-                  background-attachment: fixed;
-                  color: white;
-                  height: 100%;
-                  width: 100%;
-                }
-                </style>
-                    """, unsafe_allow_html=True)
+                st.markdown(Background, unsafe_allow_html=True)
 
                 st.write('* **Titre** : ' + str(df_MovieSelectedOne.iloc[0]["originalTitle"]))
                 st.write('* **Résumé** : ' + str(get_overview_from_api(IndiceFilm.iloc[0])))
