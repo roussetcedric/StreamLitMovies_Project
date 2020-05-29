@@ -352,13 +352,12 @@ def main():
                 st.write("<iframe width='420' height='315' src="+ str(preview_url)+"> /iframe>", unsafe_allow_html=True)
 
             # Define Side Menu ----------------------------------------------
-            st.sidebar.title("Film Filters")
-            GenreList_list = st.sidebar.multiselect("Select Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
-            ActorList_list = st.sidebar.multiselect("Select Actor", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
-            DirectorList_list = st.sidebar.multiselect("Select Director", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
-            WriterList_list = st.sidebar.multiselect("Select Writer", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
+            GenreList_list = st.sidebar.multiselect("Filtre par Genre", df_MovieSelectedOne.iloc[0]["genres"].split(","))
+            ActorList_list = st.sidebar.multiselect("Filtre par Acteur", df_MovieSelectedOne.iloc[0]["actorsName"].split(","))
+            DirectorList_list = st.sidebar.multiselect("Filtre apr Directeur", df_MovieSelectedOne.iloc[0]["directorsName"].split(","))
+            WriterList_list = st.sidebar.multiselect("Filtre par Scénariste", df_MovieSelectedOne.iloc[0]["writersName"].split(","))
             if pd.notna(df_MovieSelectedOne.iloc[0]["composersName"]) :
-                ComposerList_list = st.sidebar.multiselect("Select Composer", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
+                ComposerList_list = st.sidebar.multiselect("Filtre par Compositeur", df_MovieSelectedOne.iloc[0]["composersName"].split(","))
             else : 
                 ComposerList_list = []
 
@@ -389,6 +388,10 @@ def main():
                     df_Avis=list(liste_film_user.groupby('tconst')['rating'].mean().nlargest(5).index)
                     df_Display = df_Movies.loc[df_Movies['tconst'].isin(df_Avis)]
 
+            if df_Display.shape[0] > 5 :
+                st.write(df_Display.shape[0])
+                df_Display = df_Display[0:5]
+                st.write(df_Display.shape[0])
             x = st.slider('x', 1, df_Display.shape[0])
             if x <= df_Display.shape[0]:
                 DisplayPoster(get_poster_from_api(df_Display.iloc[x-1]["tconst"]))
