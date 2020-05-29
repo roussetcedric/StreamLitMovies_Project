@@ -355,6 +355,7 @@ def main():
                         "}" \
                         "</style>" \
                         "\"\"\""
+                    st.write(BackGround_string)
                     st.markdown(BackGround_string, unsafe_allow_html=True)
 
                     BackGround_string2 = "<style> body\{background: url('" + get_poster_from_api(df_MovieSelectedOne.iloc[0]["tconst"]) + "') center center no-repeat;background-size: cover;background-attachment: fixed;color: white;height: 100%;width: 100%;\}</style>"
