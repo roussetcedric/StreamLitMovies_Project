@@ -249,7 +249,7 @@ def main():
 
     session_state = SessionState.get(name="", button_selected=False)
 
-    st.image("https://raw.githubusercontent.com/roussetcedric/StreamLitMovies_Project/master/logo.png", width=800)
+    st.image("https://raw.githubusercontent.com/roussetcedric/StreamLitMovies_Project/master/logo.png", width=700)
     my_bar = st.progress(0)
     for percent_complete in range(100):
         time.sleep(0.01)
